@@ -40,12 +40,12 @@ class OnboardingController extends GetxController {
         curve: Curves.easeInOut,
       );
     } else {
-      Get.offNamed(AppRoutes.logInScreen);
+      Get.offNamed(AppRoutes.onlineRegistrationScreen);
     }
   }
 
   void skip() {
-    Get.offNamed(AppRoutes.logInScreen);
+    Get.offNamed(AppRoutes.onlineRegistrationScreen);
   }
 
   @override

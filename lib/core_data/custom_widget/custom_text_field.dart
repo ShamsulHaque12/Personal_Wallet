@@ -163,7 +163,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     shrinkWrap: true,
                     padding: EdgeInsets.zero,
                     itemCount: widget.dropdownItems?.length ?? 0,
-                    separatorBuilder: (_, __) => Divider(height: 0),
+                    separatorBuilder: (_, _) => Divider(height: 0),
                     itemBuilder: (_, index) {
                       return InkWell(
                         onTap: () {
