@@ -113,7 +113,7 @@ class HomeScreen extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: controller.transactions.length,
-                        separatorBuilder: (_, __) => SizedBox(height: 16.h),
+                        separatorBuilder: (_, _) => SizedBox(height: 16.h),
                         itemBuilder: (context, index) {
                           final tx = controller.transactions[index];
                           return TransactionTile(tx: tx);

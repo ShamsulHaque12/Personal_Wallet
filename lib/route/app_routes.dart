@@ -5,4 +5,6 @@ class AppRoutes {
   static const String onlineRegistrationScreen = '/online_registration_screen';
   static const String navigationBar = '/navigation_bar';
   static const String homeScreen = '/home_screen';
+  static const String profileScreen = '/profile_screen';
+  static const String editProfile = '/edit_profile';
 }

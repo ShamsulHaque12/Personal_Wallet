@@ -30,26 +30,12 @@ class SavingsCard extends StatelessWidget {
                   valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
                 ),
               ),
-              Icon(Icons.directions_car, color: Colors.black87, size: 30.sp),
-              Positioned(
-                bottom: -0,
-                child: Column(
-                  children: [
-                    Text(
-                      'Savings',
-                      style: GoogleFonts.poppins(
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      'On Goals',
-                      style: GoogleFonts.poppins(
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
+              Text(
+                '70%',
+                style: GoogleFonts.poppins(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
                 ),
               ),
             ],
