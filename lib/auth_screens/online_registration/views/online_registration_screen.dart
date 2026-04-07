@@ -6,7 +6,6 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_wallet/core_data/custom_widget/custom_button.dart';
 import 'package:personal_wallet/route/app_routes.dart';
-import 'package:personal_wallet/theme/app_colors.dart';
 import 'package:personal_wallet/theme/app_icons.dart';
 import 'package:personal_wallet/theme/app_images.dart';
 
@@ -15,8 +14,9 @@ class OnlineRegistrationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: AppColors.whiteColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -27,7 +27,7 @@ class OnlineRegistrationScreen extends StatelessWidget {
                 AppImages.track,
                 width: 180,
                 height: 180,
-                color: AppColors.backgroundColor,
+                color: theme.colorScheme.primary,
               ),
             ),
             SizedBox(height: 12.h),
@@ -37,7 +37,7 @@ class OnlineRegistrationScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(
                   fontSize: 18.sp,
-                  color: AppColors.blackColor,
+                  color: theme.textTheme.bodyLarge?.color,
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -46,7 +46,7 @@ class OnlineRegistrationScreen extends StatelessWidget {
             CustomButton(
               text: 'Google',
               prefixIcon: SvgPicture.asset(AppIcons.google),
-              backgroundColor: AppColors.backgroundColor,
+              backgroundColor: theme.colorScheme.primary,
               onTap: () {
                 Get.offAllNamed(AppRoutes.navigationBar);
               },
@@ -54,15 +54,16 @@ class OnlineRegistrationScreen extends StatelessWidget {
             SizedBox(height: 12.h),
             CustomButton(
               text: 'Apple',
-              prefixIcon: SvgPicture.asset(AppIcons.apple),
-              backgroundColor: AppColors.backgroundColor,
+              prefixIcon: SvgPicture.asset(AppIcons.apple, colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
+              backgroundColor: theme.colorScheme.onSurface,
+              textColor: theme.colorScheme.surface,
               onTap: () {},
             ),
             SizedBox(height: 12.h),
             CustomButton(
               text: 'Facebook',
               prefixIcon: SvgPicture.asset(AppIcons.facebook),
-              backgroundColor: AppColors.backgroundColor,
+              backgroundColor: const Color(0xFF1877F2),
               onTap: () {},
             ),
           ],
@@ -71,3 +72,4 @@ class OnlineRegistrationScreen extends StatelessWidget {
     );
   }
 }
+

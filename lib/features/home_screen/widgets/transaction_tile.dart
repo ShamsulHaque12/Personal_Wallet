@@ -9,12 +9,13 @@ class TransactionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Row(
       children: [
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: tx.iconColor.withOpacity(0.2),
+            color: tx.iconColor.withOpacity(0.15),
             borderRadius: BorderRadius.circular(15.r),
           ),
           child: Icon(tx.icon, color: tx.iconColor, size: 24.sp),
@@ -26,11 +27,18 @@ class TransactionTile extends StatelessWidget {
             children: [
               Text(
                 tx.title,
-                style: GoogleFonts.poppins(fontSize: 15.sp, fontWeight: FontWeight.bold),
+                style: GoogleFonts.poppins(
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.bold,
+                  color: theme.colorScheme.onSurface,
+                ),
               ),
               Text(
                 tx.date,
-                style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.blue.shade400),
+                style: GoogleFonts.poppins(
+                  fontSize: 12.sp,
+                  color: theme.colorScheme.primary.withOpacity(0.7),
+                ),
               ),
             ],
           ),
@@ -38,17 +46,20 @@ class TransactionTile extends StatelessWidget {
         Container(
           height: 20.h,
           width: 1,
-          color: Colors.blue.shade100,
+          color: theme.colorScheme.onSurface.withOpacity(0.1),
           margin: EdgeInsets.symmetric(horizontal: 12.w),
         ),
         Text(
           tx.subtitle,
-          style: GoogleFonts.poppins(fontSize: 12.sp, color: Colors.black54),
+          style: GoogleFonts.poppins(
+            fontSize: 12.sp,
+            color: theme.colorScheme.onSurface.withOpacity(0.6),
+          ),
         ),
         Container(
           height: 20.h,
           width: 1,
-          color: Colors.blue.shade100,
+          color: theme.colorScheme.onSurface.withOpacity(0.1),
           margin: EdgeInsets.symmetric(horizontal: 12.w),
         ),
         Text(
@@ -56,10 +67,13 @@ class TransactionTile extends StatelessWidget {
           style: GoogleFonts.poppins(
             fontSize: 15.sp,
             fontWeight: FontWeight.bold,
-            color: tx.isExpense ? Colors.blue.shade400 : Colors.black,
+            color: tx.isExpense 
+                ? theme.colorScheme.error 
+                : theme.colorScheme.primary,
           ),
         ),
       ],
     );
   }
+
 }

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_wallet/features/home_screen/controller/home_screen_controller.dart';
-import 'package:personal_wallet/theme/app_colors.dart';
+
 
 import 'package:personal_wallet/features/home_screen/widgets/home_summary_section.dart';
 import 'package:personal_wallet/features/home_screen/widgets/savings_card.dart';
@@ -16,15 +16,16 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
             // Teal Header Background with Content
             Container(
               width: double.infinity,
-              decoration: BoxDecoration(color: AppColors.backgroundColor),
+              decoration: BoxDecoration(color: theme.colorScheme.background),
               child: SafeArea(
                 bottom: false,
                 child: Column(
@@ -44,7 +45,7 @@ class HomeScreen extends StatelessWidget {
                               Text(
                                 'Hi, Welcome Back',
                                 style: GoogleFonts.poppins(
-                                  color: Colors.black,
+                                  color: Colors.white,
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -52,7 +53,7 @@ class HomeScreen extends StatelessWidget {
                               Text(
                                 'Good Morning',
                                 style: GoogleFonts.poppins(
-                                  color: Colors.black54,
+                                  color: Colors.white70,
                                   fontSize: 13.sp,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -62,13 +63,13 @@ class HomeScreen extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: const BoxDecoration(
-                              color: Colors.white,
+                              color: Colors.white24,
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
                               Icons.notifications_none_outlined,
                               size: 24.sp,
-                              color: Colors.black54,
+                              color: Colors.white,
                             ),
                           ),
                         ],
@@ -83,13 +84,13 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
 
-            // White Body Container
+            // Body Container
             Transform.translate(
               offset: Offset(0, -20.h),
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: AppColors.bodyColor,
+                  color: theme.scaffoldBackgroundColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(50.r),
                     topRight: Radius.circular(50.r),
@@ -130,4 +131,5 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
 }

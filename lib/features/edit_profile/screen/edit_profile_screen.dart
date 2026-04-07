@@ -4,8 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_wallet/features/edit_profile/controller/edit_profile_controller.dart';
-import 'package:personal_wallet/theme/app_colors.dart';
-
 class EditProfileScreen extends StatelessWidget {
   EditProfileScreen({super.key});
 
@@ -13,18 +11,19 @@ class EditProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: theme.colorScheme.background,
       body: Stack(
         children: [
-          // White Body Container
+          // Background Body Container (Bottom Half)
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
               height: 420.h,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: AppColors.bodyColor,
+                color: theme.scaffoldBackgroundColor,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(40.r),
                   topRight: Radius.circular(40.r),
@@ -37,7 +36,7 @@ class EditProfileScreen extends StatelessWidget {
           SafeArea(
             child: Column(
               children: [
-                // Top Header (Fixed)
+                // Top Header
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: Row(
@@ -48,7 +47,7 @@ class EditProfileScreen extends StatelessWidget {
                         icon: Icon(
                           Icons.arrow_back_ios_new,
                           size: 20.sp,
-                          color: const Color(0xFF093030),
+                          color: Colors.white,
                         ),
                       ),
                       Text(
@@ -56,26 +55,19 @@ class EditProfileScreen extends StatelessWidget {
                         style: GoogleFonts.poppins(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w700,
-                          color: const Color(0xFF093030),
+                          color: Colors.white,
                         ),
                       ),
                       Container(
                         padding: EdgeInsets.all(8.r),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Colors.white.withOpacity(0.2),
                           shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
-                              blurRadius: 10,
-                              offset: const Offset(0, 5),
-                            ),
-                          ],
                         ),
                         child: Icon(
                           Icons.notifications_none_rounded,
                           size: 24.sp,
-                          color: const Color(0xFF093030),
+                          color: Colors.white,
                         ),
                       ),
                     ],
@@ -84,7 +76,7 @@ class EditProfileScreen extends StatelessWidget {
 
                 SizedBox(height: 10.h),
 
-                // Profile Image with Camera Overlay (Fixed)
+                // Profile Image with Camera Overlay
                 Center(
                   child: Stack(
                     children: [
@@ -94,8 +86,8 @@ class EditProfileScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: Colors.white.withOpacity(0.6),
-                            width: 0,
+                            color: Colors.white.withOpacity(0.2),
+                            width: 2,
                           ),
                           boxShadow: [
                             BoxShadow(
@@ -125,9 +117,10 @@ class EditProfileScreen extends StatelessWidget {
                           onTap: () => controller.pickImage(),
                           child: Container(
                             padding: const EdgeInsets.all(6),
-                            decoration: const BoxDecoration(
-                              color: Color(0xFF00D09E),
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.primary,
                               shape: BoxShape.circle,
+                              border: Border.all(color: theme.colorScheme.surface, width: 2),
                             ),
                             child: Icon(
                               Icons.camera_alt_outlined,
@@ -143,13 +136,13 @@ class EditProfileScreen extends StatelessWidget {
 
                 SizedBox(height: 8.h),
 
-                // User Info (Fixed)
+                // User Info
                 Text(
                   controller.userName,
                   style: GoogleFonts.poppins(
                     fontSize: 24.sp,
                     fontWeight: FontWeight.w700,
-                    color: const Color(0xFF0E3E3E),
+                    color: Colors.white,
                     letterSpacing: -0.5,
                   ),
                 ),
@@ -158,7 +151,7 @@ class EditProfileScreen extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w400,
-                    color: const Color(0xFF093030).withOpacity(0.6),
+                    color: Colors.white.withOpacity(0.7),
                   ),
                 ),
 
@@ -166,74 +159,82 @@ class EditProfileScreen extends StatelessWidget {
 
                 // Account Settings Section (Scrollable)
                 Expanded(
-                  child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24.w),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Account Settings',
-                            style: GoogleFonts.poppins(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w700,
-                              color: const Color(0xFF0E3E3E),
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: theme.scaffoldBackgroundColor,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(40.r),
+                        topRight: Radius.circular(40.r),
+                      ),
+                    ),
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Account Settings',
+                              style: GoogleFonts.poppins(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w700,
+                                color: theme.textTheme.bodyLarge?.color,
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 20.h),
+                            SizedBox(height: 20.h),
 
-                          // Username Field
-                          _buildFieldLabel('Username'),
-                          _buildTextField(controller.usernameController),
-                          SizedBox(height: 20.h),
+                            // Username Field
+                            _buildFieldLabel(context, 'Username'),
+                            _buildTextField(context, controller.usernameController),
+                            SizedBox(height: 20.h),
 
-                          // Phone Field
-                          _buildFieldLabel('Phone'),
-                          _buildTextField(controller.phoneController),
-                          SizedBox(height: 20.h),
+                            // Phone Field
+                            _buildFieldLabel(context, 'Phone'),
+                            _buildTextField(context, controller.phoneController),
+                            SizedBox(height: 20.h),
 
-                          // Email Address Field
-                          _buildFieldLabel('Email Address'),
-                          _buildTextField(controller.emailController),
+                            // Email Address Field
+                            _buildFieldLabel(context, 'Email Address'),
+                            _buildTextField(context, controller.emailController),
 
-                          SizedBox(height: 40.h),
+                            SizedBox(height: 40.h),
 
-                          // Update Profile Button
-                          Center(
-                            child: GestureDetector(
-                              onTap: controller.onUpdateProfile,
-                              child: Container(
-                                width: 220.w,
-                                padding: EdgeInsets.symmetric(vertical: 14.h),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF00D09E),
-                                  borderRadius: BorderRadius.circular(40.r),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: const Color(
-                                        0xFF00D09E,
-                                      ).withOpacity(0.3),
-                                      blurRadius: 12,
-                                      offset: const Offset(0, 6),
-                                    ),
-                                  ],
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'Update Profile',
-                                    style: GoogleFonts.poppins(
-                                      color: Colors.white,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w700,
+                            // Update Profile Button
+                            Center(
+                              child: GestureDetector(
+                                onTap: controller.onUpdateProfile,
+                                child: Container(
+                                  width: 220.w,
+                                  padding: EdgeInsets.symmetric(vertical: 14.h),
+                                  decoration: BoxDecoration(
+                                    color: theme.colorScheme.primary,
+                                    borderRadius: BorderRadius.circular(40.r),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: theme.colorScheme.primary.withOpacity(0.3),
+                                        blurRadius: 12,
+                                        offset: const Offset(0, 6),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Update Profile',
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 30.h),
-                        ],
+                            SizedBox(height: 30.h),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -246,7 +247,8 @@ class EditProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFieldLabel(String label) {
+  Widget _buildFieldLabel(BuildContext context, String label) {
+    final theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.only(bottom: 8.h),
       child: Text(
@@ -254,25 +256,24 @@ class EditProfileScreen extends StatelessWidget {
         style: GoogleFonts.poppins(
           fontSize: 15.sp,
           fontWeight: FontWeight.w600,
-          color: const Color(0xFF093030),
+          color: theme.textTheme.bodyLarge?.color,
         ),
       ),
     );
   }
 
-  Widget _buildTextField(TextEditingController controller) {
+  Widget _buildTextField(BuildContext context, TextEditingController controller) {
+    final theme = Theme.of(context);
     return Container(
       decoration: BoxDecoration(
-        color: const Color(
-          0xFFDFF7E2,
-        ).withOpacity(0.5), // Light green background
+        color: theme.colorScheme.secondaryContainer.withOpacity(0.5),
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: TextField(
         controller: controller,
         style: GoogleFonts.poppins(
           fontSize: 14.sp,
-          color: const Color(0xFF093030),
+          color: theme.textTheme.bodyLarge?.color,
         ),
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(
@@ -285,3 +286,4 @@ class EditProfileScreen extends StatelessWidget {
     );
   }
 }
+

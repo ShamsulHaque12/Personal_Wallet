@@ -5,16 +5,15 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_wallet/features/onboarding_screen/controller/onboarding_controller.dart';
-import 'package:personal_wallet/theme/app_colors.dart';
-
 class OnboardingScreen extends StatelessWidget {
   OnboardingScreen({super.key});
   final OnboardingController controller = Get.put(OnboardingController());
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: theme.colorScheme.background,
       body: Stack(
         children: [
           /// PageView
@@ -37,15 +36,16 @@ class OnboardingScreen extends StatelessWidget {
                       style: GoogleFonts.poppins(
                         fontSize: 26.sp,
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                     SizedBox(height: 8.h),
                     Text(
                       item.description,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                         fontSize: 16.sp,
-                        color: Colors.grey.shade600,
+                        color: Colors.white.withOpacity(0.7),
                       ),
                     ),
                   ],
@@ -67,9 +67,10 @@ class OnboardingScreen extends StatelessWidget {
                 onTap: controller.skip,
                 child: Text(
                   'Skip',
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
+                    color: Colors.white,
                   ),
                 ),
               );
@@ -96,8 +97,8 @@ class OnboardingScreen extends StatelessWidget {
                         height: 8.h,
                         decoration: BoxDecoration(
                           color: controller.currentIndex.value == index
-                              ? Colors.black
-                              : Colors.grey,
+                              ? Colors.white
+                              : Colors.white.withOpacity(0.3),
                           borderRadius: BorderRadius.circular(4.r),
                         ),
                       ),
@@ -109,10 +110,13 @@ class OnboardingScreen extends StatelessWidget {
                 /// Continue Button
                 SizedBox(
                   width: double.infinity,
-                  height: 40.h,
+                  height: 50.h,
                   child: ElevatedButton(
                     onPressed: controller.nextPage,
                     style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: theme.colorScheme.primary,
+                      elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14.r),
                       ),
@@ -123,10 +127,9 @@ class OnboardingScreen extends StatelessWidget {
                                 controller.onboardingList.length - 1
                             ? 'Get Started'
                             : 'Continue',
-                        style: TextStyle(
+                        style: GoogleFonts.poppins(
                           fontSize: 16.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.blackColor,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
@@ -141,3 +144,4 @@ class OnboardingScreen extends StatelessWidget {
     );
   }
 }
+

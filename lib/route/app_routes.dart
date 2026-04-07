@@ -7,4 +7,8 @@ class AppRoutes {
   static const String homeScreen = '/home_screen';
   static const String profileScreen = '/profile_screen';
   static const String editProfile = '/edit_profile';
+  static const String securityScreen = '/security_screen';
+  static const String settingsScreen = '/settings_screen';
+  static const String helpCenter = '/help_center';
 }
+

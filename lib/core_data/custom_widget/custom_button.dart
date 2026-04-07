@@ -36,6 +36,7 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -43,10 +44,10 @@ class CustomButton extends StatelessWidget {
         width: width ?? double.infinity,
         padding: EdgeInsets.symmetric(horizontal: 12.w),
         decoration: BoxDecoration(
-          color: backgroundColor ?? Colors.blue,
+          color: backgroundColor ?? theme.colorScheme.primary,
           borderRadius: BorderRadius.circular(radius.r),
           border: Border.all(
-            color: borderColor ?? Colors.white,
+            color: borderColor ?? Colors.transparent,
             width: borderWidth ?? 0,
           ),
         ),
@@ -66,6 +67,7 @@ class CustomButton extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
+
             if (suffixIcon != null) ...[
               SizedBox(width: iconSpacing),
               suffixIcon!,

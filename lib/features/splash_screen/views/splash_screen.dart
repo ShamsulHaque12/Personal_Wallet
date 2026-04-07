@@ -5,7 +5,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_wallet/features/splash_screen/controller/splash_controller.dart';
-import 'package:personal_wallet/theme/app_colors.dart';
 import 'package:personal_wallet/theme/app_images.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -14,8 +13,9 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: theme.colorScheme.background,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -26,7 +26,7 @@ class SplashScreen extends StatelessWidget {
               'Track your expenses',
               style: GoogleFonts.poppins(
                 fontSize: 24.sp,
-                color: AppColors.whiteColor,
+                color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -36,18 +36,15 @@ class SplashScreen extends StatelessWidget {
               'and save your money',
               style: GoogleFonts.poppins(
                 fontSize: 16.sp,
-                color: AppColors.greyColor,
+                color: Colors.white.withOpacity(0.7),
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
-          SizedBox(height: 20.h),
+          SizedBox(height: 30.h),
           Center(
-            child: SpinKitCircle(
-              color: AppColors.blackColor,
-              size: 60.sp,
-            ),
-          )
+            child: SpinKitCircle(color: Colors.white, size: 60.sp),
+          ),
         ],
       ),
     );

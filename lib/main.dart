@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get/get.dart';
 import 'package:personal_wallet/route/app_pages.dart';
 import 'package:personal_wallet/route/app_routes.dart';
+import 'package:personal_wallet/theme/app_theme.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -21,6 +23,9 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           title: 'Personal Wallet',
           debugShowCheckedModeBanner: false,
+          theme: AppTheme.darkTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: ThemeMode.dark, // Force dark mode
           initialRoute: AppRoutes.splashScreen,
           getPages: AppPages.pages,
         );
@@ -28,3 +33,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

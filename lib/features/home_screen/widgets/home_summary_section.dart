@@ -7,6 +7,7 @@ class HomeSummarySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 12.w),
       child: Column(
@@ -22,14 +23,14 @@ class HomeSummarySection extends StatelessWidget {
                         Icon(
                           Icons.arrow_outward,
                           size: 14.sp,
-                          color: Colors.black,
+                          color: Colors.white,
                         ),
                         SizedBox(width: 4.w),
                         Text(
                           'Total Balance',
                           style: GoogleFonts.poppins(
                             fontSize: 12.sp,
-                            color: Colors.black87,
+                            color: Colors.white70,
                           ),
                         ),
                       ],
@@ -60,14 +61,14 @@ class HomeSummarySection extends StatelessWidget {
                         Icon(
                           Icons.call_received,
                           size: 14.sp,
-                          color: Colors.black,
+                          color: Colors.white,
                         ),
                         SizedBox(width: 4.w),
                         Text(
                           'Total Expense',
                           style: GoogleFonts.poppins(
                             fontSize: 12.sp,
-                            color: Colors.black87,
+                            color: Colors.white70,
                           ),
                         ),
                       ],
@@ -77,7 +78,7 @@ class HomeSummarySection extends StatelessWidget {
                       style: GoogleFonts.poppins(
                         fontSize: 24.sp,
                         fontWeight: FontWeight.bold,
-                        color: Colors.blue.shade700,
+                        color: Colors.white,
                       ),
                     ),
                   ],
@@ -92,7 +93,7 @@ class HomeSummarySection extends StatelessWidget {
             height: 32.h,
             width: double.infinity,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Colors.white.withOpacity(0.15),
               borderRadius: BorderRadius.circular(16.r),
             ),
             child: Stack(
@@ -101,14 +102,14 @@ class HomeSummarySection extends StatelessWidget {
                   widthFactor: 0.3,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(16.r),
                     ),
                     alignment: Alignment.center,
                     child: Text(
                       '30%',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: theme.colorScheme.primary,
                         fontSize: 12.sp,
                         fontWeight: FontWeight.bold,
                       ),
@@ -125,7 +126,7 @@ class HomeSummarySection extends StatelessWidget {
                       style: GoogleFonts.poppins(
                         fontSize: 12.sp,
                         fontStyle: FontStyle.italic,
-                        color: Colors.black54,
+                        color: Colors.white70,
                       ),
                     ),
                   ),
@@ -136,13 +137,15 @@ class HomeSummarySection extends StatelessWidget {
           SizedBox(height: 12.h),
           Row(
             children: [
-              Icon(Icons.check_box_outlined, size: 16.sp, color: Colors.black),
+              const Icon(Icons.check_box_outlined, size: 16, color: Colors.white),
               SizedBox(width: 8.w),
-              Text(
-                '30% Of Your Expenses, Looks Good.',
-                style: GoogleFonts.poppins(
-                  fontSize: 13.sp,
-                  color: Colors.black87,
+              Expanded(
+                child: Text(
+                  '30% Of Your Expenses, Looks Good.',
+                  style: GoogleFonts.poppins(
+                    fontSize: 13.sp,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ],
@@ -152,4 +155,5 @@ class HomeSummarySection extends StatelessWidget {
       ),
     );
   }
+
 }
