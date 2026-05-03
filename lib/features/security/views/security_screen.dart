@@ -12,14 +12,14 @@ class SecurityScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.surface,
       body: Stack(
         children: [
           // Teal Header
           Container(
             height: 200.h,
             width: double.infinity,
-            color: theme.colorScheme.background,
+            color: theme.colorScheme.surface,
           ),
 
           // Content
@@ -73,7 +73,7 @@ class SecurityScreen extends StatelessWidget {
                             trailing: Obx(() => Switch(
                               value: controller.isFaceIDEnabled.value,
                               onChanged: controller.toggleFaceID,
-                              activeColor: theme.colorScheme.primary,
+                              activeThumbColor: theme.colorScheme.primary,
                             )),
                           ),
                           _buildSecurityTile(
@@ -84,7 +84,7 @@ class SecurityScreen extends StatelessWidget {
                             trailing: Obx(() => Switch(
                               value: controller.isBiometricEnabled.value,
                               onChanged: controller.toggleBiometric,
-                              activeColor: theme.colorScheme.primary,
+                              activeThumbColor: theme.colorScheme.primary,
                             )),
                           ),
 
@@ -99,7 +99,7 @@ class SecurityScreen extends StatelessWidget {
                             trailing: Obx(() => Switch(
                               value: controller.isTwoFactorEnabled.value,
                               onChanged: controller.toggleTwoFactor,
-                              activeColor: theme.colorScheme.primary,
+                              activeThumbColor: theme.colorScheme.primary,
                             )),
                           ),
                           _buildSecurityTile(

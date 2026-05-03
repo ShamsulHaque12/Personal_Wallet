@@ -13,10 +13,8 @@ class AppTheme {
       primary: AppColors.brandColor,
       secondary: AppColors.brandSecondary,
       surface: AppColors.lSurface,
-      background: AppColors.lBackground,
       onPrimary: Colors.white,
       onSurface: AppColors.lTextPrimary,
-      onBackground: Colors.white,
     ),
     textTheme: GoogleFonts.poppinsTextTheme().apply(
       bodyColor: AppColors.lTextPrimary,
@@ -44,10 +42,8 @@ class AppTheme {
       primary: AppColors.brandColor,
       secondary: AppColors.brandColor,
       surface: AppColors.dSurface,
-      background: AppColors.dBackground,
       onPrimary: Colors.white,
       onSurface: AppColors.dTextPrimary,
-      onBackground: Colors.white,
     ),
     textTheme: GoogleFonts.poppinsTextTheme().apply(
       bodyColor: AppColors.dTextPrimary,

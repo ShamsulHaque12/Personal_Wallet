@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
             // Teal Header Background with Content
             Container(
               width: double.infinity,
-              decoration: BoxDecoration(color: theme.colorScheme.background),
+              decoration: BoxDecoration(color: theme.colorScheme.surface),
               child: SafeArea(
                 bottom: false,
                 child: Column(

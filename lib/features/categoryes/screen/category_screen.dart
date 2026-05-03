@@ -21,7 +21,7 @@ class CategoryScreen extends StatelessWidget {
             // Teal Header Background
             Container(
               width: double.infinity,
-              decoration: BoxDecoration(color: theme.colorScheme.background),
+              decoration: BoxDecoration(color: theme.colorScheme.surface),
               child: SafeArea(
                 bottom: false,
                 child: Column(

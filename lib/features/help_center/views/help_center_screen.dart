@@ -12,14 +12,14 @@ class HelpCenterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.surface,
       body: Stack(
         children: [
           // Teal Header
           Container(
             height: 200.h,
             width: double.infinity,
-            color: theme.colorScheme.background,
+            color: theme.colorScheme.surface,
           ),
 
           // Content
