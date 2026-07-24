@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_wallet/features/help_center/controller/help_center_controller.dart';
+import 'package:personal_wallet/features/home_screen/widgets/tilt_3d_container.dart';
+import 'package:personal_wallet/features/transactions/views/flipping_3d_list_item.dart';
 
 class HelpCenterScreen extends StatelessWidget {
   HelpCenterScreen({super.key});
@@ -42,36 +44,39 @@ class HelpCenterScreen extends StatelessWidget {
         children: [
           SizedBox(height: 8.h),
 
-          // Search Bar Input
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 20.w),
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.surface,
-              borderRadius: BorderRadius.circular(16.r),
-              border: Border.all(
-                color: theme.colorScheme.onSurface.withValues(alpha: 0.05),
-                width: 1.5,
-              ),
-            ),
-            child: TextField(
-              onChanged: controller.onSearch,
-              style: GoogleFonts.poppins(
-                fontSize: 14.sp,
-                color: theme.colorScheme.onSurface,
-              ),
-              decoration: InputDecoration(
-                icon: Icon(
-                  Icons.search_rounded,
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
-                  size: 20.sp,
+          // Search Bar Input (Cascading 3D)
+          Flipping3DListItem(
+            index: 0,
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 20.w),
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surface,
+                borderRadius: BorderRadius.circular(16.r),
+                border: Border.all(
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.05),
+                  width: 1.5,
                 ),
-                hintText: 'Search for help...',
-                hintStyle: GoogleFonts.poppins(
+              ),
+              child: TextField(
+                onChanged: controller.onSearch,
+                style: GoogleFonts.poppins(
                   fontSize: 14.sp,
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.35),
+                  color: theme.colorScheme.onSurface,
                 ),
-                border: InputBorder.none,
+                decoration: InputDecoration(
+                  icon: Icon(
+                    Icons.search_rounded,
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
+                    size: 20.sp,
+                  ),
+                  hintText: 'Search for help...',
+                  hintStyle: GoogleFonts.poppins(
+                    fontSize: 14.sp,
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.35),
+                  ),
+                  border: InputBorder.none,
+                ),
               ),
             ),
           ),
@@ -113,88 +118,96 @@ class HelpCenterScreen extends StatelessWidget {
                 itemCount: list.length,
                 itemBuilder: (context, index) {
                   final faq = list[index];
-                  return _buildFAQTile(
-                    context: context,
-                    question: faq['question']!,
-                    answer: faq['answer']!,
+                  return Flipping3DListItem(
+                    index: index + 2,
+                    child: _buildFAQTile(
+                      context: context,
+                      question: faq['question']!,
+                      answer: faq['answer']!,
+                    ),
                   );
                 },
               );
             }),
           ),
 
-          // Contact Card Section
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-            padding: EdgeInsets.all(20.r),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withValues(alpha: 0.06),
-              borderRadius: BorderRadius.circular(20.r),
-              border: Border.all(
-                color: theme.colorScheme.primary.withValues(alpha: 0.15),
-                width: 1.5,
-              ),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  padding: EdgeInsets.all(12.r),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.headset_mic_rounded,
-                    color: theme.colorScheme.primary,
-                    size: 24.sp,
+          // Contact Card Section (Interactive 3D Tilt Card)
+          Flipping3DListItem(
+            index: 1,
+            child: Tilt3DContainer(
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+                padding: EdgeInsets.all(20.r),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primary.withValues(alpha: 0.06),
+                  borderRadius: BorderRadius.circular(20.r),
+                  border: Border.all(
+                    color: theme.colorScheme.primary.withValues(alpha: 0.15),
+                    width: 1.5,
                   ),
                 ),
-                SizedBox(width: 16.w),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Still need help?',
+                child: Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(12.r),
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.headset_mic_rounded,
+                        color: theme.colorScheme.primary,
+                        size: 24.sp,
+                      ),
+                    ),
+                    SizedBox(width: 16.w),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Still need help?',
+                            style: GoogleFonts.poppins(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.bold,
+                              color: theme.colorScheme.onSurface,
+                            ),
+                          ),
+                          SizedBox(height: 2.h),
+                          Text(
+                            'Speak to our support team.',
+                            style: GoogleFonts.poppins(
+                              fontSize: 11.sp,
+                              color: theme.colorScheme.onSurface
+                                  .withValues(alpha: 0.4),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: controller.onContactSupport,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: theme.colorScheme.primary,
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                      ),
+                      child: Text(
+                        'Contact',
                         style: GoogleFonts.poppins(
-                          fontSize: 14.sp,
+                          fontSize: 12.sp,
                           fontWeight: FontWeight.bold,
-                          color: theme.colorScheme.onSurface,
                         ),
                       ),
-                      SizedBox(height: 2.h),
-                      Text(
-                        'Speak to our support team.',
-                        style: GoogleFonts.poppins(
-                          fontSize: 11.sp,
-                          color: theme.colorScheme.onSurface
-                              .withValues(alpha: 0.4),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: controller.onContactSupport,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: theme.colorScheme.primary,
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.r),
                     ),
-                  ),
-                  child: Text(
-                    'Contact',
-                    style: GoogleFonts.poppins(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ],

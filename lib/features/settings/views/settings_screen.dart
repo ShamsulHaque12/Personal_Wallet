@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_wallet/features/settings/controller/settings_controller.dart';
+import 'package:personal_wallet/features/home_screen/widgets/tilt_3d_container.dart';
+import 'package:personal_wallet/features/transactions/views/flipping_3d_list_item.dart';
 
 class SettingsScreen extends StatelessWidget {
   SettingsScreen({super.key});
@@ -45,6 +47,7 @@ class SettingsScreen extends StatelessWidget {
             _buildSectionHeader(context, 'App Settings'),
             _buildSettingsGroup(
               context,
+              index: 0,
               children: [
                 _buildSettingTile(
                   context: context,
@@ -70,6 +73,7 @@ class SettingsScreen extends StatelessWidget {
             _buildSectionHeader(context, 'General'),
             _buildSettingsGroup(
               context,
+              index: 1,
               children: [
                 Obx(
                   () => _buildSettingTile(
@@ -176,21 +180,36 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSettingsGroup(BuildContext context,
-      {required List<Widget> children}) {
+  Widget _buildSettingsGroup(
+    BuildContext context, {
+    required List<Widget> children,
+    required int index,
+  }) {
     final theme = Theme.of(context);
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20.w),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(
-          color: theme.colorScheme.onSurface.withValues(alpha: 0.05),
-          width: 1.5,
+    return Flipping3DListItem(
+      index: index,
+      child: Tilt3DContainer(
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 20.w),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surface,
+            borderRadius: BorderRadius.circular(20.r),
+            border: Border.all(
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.03),
+              width: 1.5,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.02),
+                blurRadius: 16,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: Column(
+            children: children,
+          ),
         ),
-      ),
-      child: Column(
-        children: children,
       ),
     );
   }
@@ -211,7 +230,7 @@ class SettingsScreen extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(20.r),
         child: Column(
           children: [
             Padding(

@@ -5,7 +5,6 @@ import 'package:personal_wallet/route/app_pages.dart';
 import 'package:personal_wallet/route/app_routes.dart';
 import 'package:personal_wallet/theme/app_theme.dart';
 
-
 void main() {
   runApp(const MyApp());
 }
@@ -33,4 +32,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
