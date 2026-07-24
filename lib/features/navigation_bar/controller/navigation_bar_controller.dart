@@ -4,6 +4,7 @@ import 'package:personal_wallet/features/home_screen/views/home_screen.dart';
 import 'package:personal_wallet/features/transactions/views/transactions_screen.dart';
 import 'package:personal_wallet/features/analytics/views/analytics_screen.dart';
 import 'package:personal_wallet/features/profile_screen/screen/profile_screen.dart';
+import 'package:personal_wallet/features/transaction_categories/views/transaction_categories_screen.dart';
 
 class NavigationBarController extends GetxController {
   var selectedIndex = 0.obs;
@@ -11,14 +12,12 @@ class NavigationBarController extends GetxController {
   final List<Widget> screens = [
     HomeScreen(),
     const TransactionsScreen(),
-    const SizedBox(), // Placeholder for center FAB, never actually displayed
+    TransactionCategoriesScreen(),
     const AnalyticsScreen(),
     ProfileScreen(),
   ];
 
   void changeIndex(int index) {
-    if (index != 2) {
-      selectedIndex.value = index;
-    }
+    selectedIndex.value = index;
   }
 }

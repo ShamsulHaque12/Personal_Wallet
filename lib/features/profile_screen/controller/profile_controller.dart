@@ -8,7 +8,7 @@ class ProfileController extends GetxController {
   // Static data for now as per the design specs
   final String userName = 'MD Sujon Islam';
   final String userGmail = '25030024@gmail.com';
-  final String profileImage = AppImages.track;
+  final String profileImage = AppImages.wallet2;
 
   // Reactive Stats for a professional feel
   final totalBalance = '\$12,480.00'.obs;

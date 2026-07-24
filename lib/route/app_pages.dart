@@ -1,6 +1,7 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:personal_wallet/auth_screens/log_in_screen/views/log_in_screen.dart';
 import 'package:personal_wallet/auth_screens/online_registration/views/online_registration_screen.dart';
+import 'package:personal_wallet/auth_screens/sign_up_screen/views/sign_up_screen.dart';
 import 'package:personal_wallet/features/home_screen/views/home_screen.dart';
 import 'package:personal_wallet/features/onboarding_screen/views/onboarding_screen.dart';
 import 'package:personal_wallet/features/splash_screen/views/splash_screen.dart';
@@ -21,6 +22,7 @@ class AppPages {
       name: AppRoutes.onlineRegistrationScreen,
       page: () => OnlineRegistrationScreen(),
     ),
+    GetPage(name: AppRoutes.signUpScreen, page: () => SignUpScreen()),
     GetPage(name: AppRoutes.navigationBar, page: () => NavigationBarView()),
     GetPage(name: AppRoutes.homeScreen, page: () => HomeScreen()),
     GetPage(name: AppRoutes.profileScreen, page: () => ProfileScreen()),

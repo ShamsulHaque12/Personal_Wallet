@@ -12,147 +12,185 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
-      body: Stack(
-        children: [
-          // Teal Header
-          Container(
-            height: 200.h,
-            width: double.infinity,
-            color: theme.colorScheme.surface,
-          ),
 
-          // Content
-          SafeArea(
-            child: Column(
+    return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
+      appBar: AppBar(
+        scrolledUnderElevation: 0,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            Icons.chevron_left_rounded,
+            color: theme.colorScheme.onSurface,
+            size: 28.sp,
+          ),
+          onPressed: () => Get.back(),
+        ),
+        title: Text(
+          'Settings',
+          style: GoogleFonts.poppins(
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+            color: theme.colorScheme.onSurface,
+          ),
+        ),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildSectionHeader(context, 'App Settings'),
+            _buildSettingsGroup(
+              context,
               children: [
-                // Header Row
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20.w,
-                    vertical: 10.h,
+                _buildSettingTile(
+                  context: context,
+                  title: 'Notifications',
+                  subtitle: 'Enable push notifications',
+                  icon: Icons.notifications_none_rounded,
+                  iconColor: Colors.deepPurple,
+                  iconBgColor: Colors.deepPurple.withValues(alpha: 0.1),
+                  trailing: Obx(
+                    () => Switch(
+                      value: controller.isNotificationsEnabled.value,
+                      onChanged: controller.toggleNotifications,
+                      activeThumbColor: theme.colorScheme.primary,
+                      activeTrackColor:
+                          theme.colorScheme.primary.withValues(alpha: 0.2),
+                    ),
                   ),
-                  child: Row(
-                    children: [
-                      const BackButton(color: Colors.white),
-                      SizedBox(width: 8.w),
-                      Text(
-                        'Settings',
-                        style: GoogleFonts.poppins(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                  showDivider: false,
+                ),
+              ],
+            ),
+            SizedBox(height: 16.h),
+            _buildSectionHeader(context, 'General'),
+            _buildSettingsGroup(
+              context,
+              children: [
+                Obx(
+                  () => _buildSettingTile(
+                    context: context,
+                    title: 'Language',
+                    subtitle: 'Choose app language',
+                    icon: Icons.language_rounded,
+                    iconColor: Colors.blue,
+                    iconBgColor: Colors.blue.withValues(alpha: 0.1),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          controller.selectedLanguage.value,
+                          style: GoogleFonts.poppins(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            color: theme.colorScheme.primary,
+                          ),
                         ),
-                      ),
-                    ],
+                        SizedBox(width: 4.w),
+                        Icon(
+                          Icons.chevron_right_rounded,
+                          color: theme.colorScheme.onSurface
+                              .withValues(alpha: 0.3),
+                          size: 20.sp,
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      _showSelectionDialog(
+                        context,
+                        'Language',
+                        ['English', 'Bengali'],
+                        controller.selectedLanguage.value,
+                        (val) => controller.changeLanguage(val),
+                      );
+                    },
+                    showDivider: true,
                   ),
                 ),
-
-                SizedBox(height: 20.h),
-
-                // Content Body
-                Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.all(24.r),
-                    decoration: BoxDecoration(
-                      color: theme.scaffoldBackgroundColor,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(35.r),
-                        topRight: Radius.circular(35.r),
-                      ),
+                Obx(
+                  () => _buildSettingTile(
+                    context: context,
+                    title: 'Currency',
+                    subtitle: 'Choose default currency',
+                    icon: Icons.monetization_on_outlined,
+                    iconColor: Colors.green,
+                    iconBgColor: Colors.green.withValues(alpha: 0.1),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          controller.selectedCurrency.value,
+                          style: GoogleFonts.poppins(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            color: theme.colorScheme.primary,
+                          ),
+                        ),
+                        SizedBox(width: 4.w),
+                        Icon(
+                          Icons.chevron_right_rounded,
+                          color: theme.colorScheme.onSurface
+                              .withValues(alpha: 0.3),
+                          size: 20.sp,
+                        ),
+                      ],
                     ),
-                    child: SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildSectionTitle(context, 'App Settings'),
-                          _buildSettingTile(
-                            context: context,
-                            title: 'Notifications',
-                            icon: Icons.notifications_active_rounded,
-                            trailing: Obx(
-                              () => Switch(
-                                value: controller.isNotificationsEnabled.value,
-                                onChanged: controller.toggleNotifications,
-                                activeThumbColor: theme.colorScheme.primary,
-                              ),
-                            ),
-                          ),
-
-                          SizedBox(height: 32.h),
-
-                          _buildSectionTitle(context, 'General'),
-                          _buildSettingTile(
-                            context: context,
-                            title: 'Language',
-                            icon: Icons.language_rounded,
-                            trailing: Obx(
-                              () => Text(
-                                controller.selectedLanguage.value,
-                                style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w600,
-                                  color: theme.colorScheme.primary,
-                                ),
-                              ),
-                            ),
-                            onTap: () {
-                              _showSelectionDialog(
-                                context,
-                                'Language',
-                                ['English', 'Bengali', 'Spanish'],
-                                (val) => controller.changeLanguage(val),
-                              );
-                            },
-                          ),
-                          _buildSettingTile(
-                            context: context,
-                            title: 'Currency',
-                            icon: Icons.monetization_on_rounded,
-                            trailing: Obx(
-                              () => Text(
-                                controller.selectedCurrency.value,
-                                style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w600,
-                                  color: theme.colorScheme.primary,
-                                ),
-                              ),
-                            ),
-                            onTap: () {
-                              _showSelectionDialog(
-                                context,
-                                'Currency',
-                                ['USD', 'BDT', 'EUR'],
-                                (val) => controller.changeCurrency(val),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
+                    onTap: () {
+                      _showSelectionDialog(
+                        context,
+                        'Currency',
+                        ['BDT'],
+                        controller.selectedCurrency.value,
+                        (val) => controller.changeCurrency(val),
+                      );
+                    },
+                    showDivider: false,
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+            SizedBox(height: 40.h),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildSectionTitle(BuildContext context, String title) {
+  Widget _buildSectionHeader(BuildContext context, String title) {
     final theme = Theme.of(context);
     return Padding(
-      padding: EdgeInsets.only(bottom: 16.h),
+      padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 16.h, bottom: 8.h),
       child: Text(
-        title,
+        title.toUpperCase(),
         style: GoogleFonts.poppins(
-          fontSize: 18.sp,
+          fontSize: 11.sp,
           fontWeight: FontWeight.bold,
-          color: theme.textTheme.bodyLarge?.color,
+          letterSpacing: 1.2,
+          color: theme.colorScheme.primary,
         ),
+      ),
+    );
+  }
+
+  Widget _buildSettingsGroup(BuildContext context,
+      {required List<Widget> children}) {
+    final theme = Theme.of(context);
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20.w),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(
+          color: theme.colorScheme.onSurface.withValues(alpha: 0.05),
+          width: 1.5,
+        ),
+      ),
+      child: Column(
+        children: children,
       ),
     );
   }
@@ -160,45 +198,79 @@ class SettingsScreen extends StatelessWidget {
   Widget _buildSettingTile({
     required BuildContext context,
     required String title,
+    required String subtitle,
     required IconData icon,
+    required Color iconColor,
+    required Color iconBgColor,
     Widget? trailing,
     VoidCallback? onTap,
+    bool showDivider = true,
   }) {
     final theme = Theme.of(context);
-    return Container(
-      margin: EdgeInsets.only(bottom: 16.h),
-      padding: EdgeInsets.all(12.r),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(20.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: ListTile(
-        contentPadding: EdgeInsets.zero,
-        leading: Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: theme.colorScheme.primary.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(10.r),
-          ),
-          child: Icon(icon, color: theme.colorScheme.primary, size: 24.sp),
-        ),
-        title: Text(
-          title,
-          style: GoogleFonts.poppins(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w600,
-            color: theme.textTheme.bodyLarge?.color,
-          ),
-        ),
-        trailing: trailing,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
         onTap: onTap,
+        borderRadius: BorderRadius.circular(16.r),
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+              child: Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(8.r),
+                    decoration: BoxDecoration(
+                      color: iconBgColor,
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                    child: Icon(
+                      icon,
+                      color: iconColor,
+                      size: 20.sp,
+                    ),
+                  ),
+                  SizedBox(width: 16.w),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: GoogleFonts.poppins(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            color: theme.colorScheme.onSurface,
+                          ),
+                        ),
+                        if (subtitle.isNotEmpty) ...[
+                          SizedBox(height: 2.h),
+                          Text(
+                            subtitle,
+                            style: GoogleFonts.poppins(
+                              fontSize: 11.sp,
+                              fontWeight: FontWeight.w400,
+                              color: theme.colorScheme.onSurface
+                                  .withValues(alpha: 0.4),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                  trailing ?? const SizedBox.shrink(),
+                ],
+              ),
+            ),
+            if (showDivider)
+              Divider(
+                height: 1,
+                indent: 52.w,
+                endIndent: 16.w,
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.05),
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -207,46 +279,80 @@ class SettingsScreen extends StatelessWidget {
     BuildContext context,
     String title,
     List<String> options,
+    String currentValue,
     Function(String) onSelect,
   ) {
     final theme = Theme.of(context);
     Get.bottomSheet(
       Container(
-        padding: EdgeInsets.all(24.r),
+        padding:
+            EdgeInsets.only(left: 24.r, right: 24.r, top: 12.r, bottom: 24.r),
         decoration: BoxDecoration(
           color: theme.colorScheme.surface,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(35.r)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.15),
+              blurRadius: 20,
+              offset: const Offset(0, -10),
+            ),
+          ],
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Container(
+              width: 36.w,
+              height: 4.h,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(2.r),
+              ),
+            ),
+            SizedBox(height: 16.h),
             Text(
               'Select $title',
               style: GoogleFonts.poppins(
-                fontSize: 18.sp,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.bold,
-                color: theme.textTheme.bodyLarge?.color,
+                color: theme.colorScheme.onSurface,
               ),
             ),
-            SizedBox(height: 20.h),
-            ...options.map(
-              (opt) => ListTile(
-                title: Text(
-                  opt,
-                  style: GoogleFonts.poppins(
-                    color: theme.textTheme.bodyLarge?.color,
+            SizedBox(height: 16.h),
+            ...options.map((opt) {
+              final isSelected = opt == currentValue;
+              return Material(
+                color: Colors.transparent,
+                child: ListTile(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 8.w),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
+                  title: Text(
+                    opt,
+                    style: GoogleFonts.poppins(
+                      fontSize: 14.sp,
+                      fontWeight:
+                          isSelected ? FontWeight.bold : FontWeight.w500,
+                      color: isSelected
+                          ? theme.colorScheme.primary
+                          : theme.colorScheme.onSurface,
+                    ),
+                  ),
+                  trailing: isSelected
+                      ? Icon(
+                          Icons.check_circle_rounded,
+                          color: theme.colorScheme.primary,
+                          size: 20.sp,
+                        )
+                      : null,
+                  onTap: () {
+                    onSelect(opt);
+                    Get.back();
+                  },
                 ),
-                trailing: Icon(
-                  Icons.check_circle_outline_rounded,
-                  color: theme.colorScheme.primary,
-                ),
-                onTap: () {
-                  onSelect(opt);
-                  Get.back();
-                },
-              ),
-            ),
+              );
+            }),
           ],
         ),
       ),

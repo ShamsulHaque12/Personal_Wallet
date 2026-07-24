@@ -12,10 +12,14 @@ class TimeframeSwitcher extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      padding: EdgeInsets.all(6.h),
+      padding: EdgeInsets.all(4.h),
       decoration: BoxDecoration(
-        color: theme.colorScheme.secondaryContainer.withValues(alpha: 0.5),
-        borderRadius: BorderRadius.circular(25.r),
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(
+          color: theme.colorScheme.onSurface.withValues(alpha: 0.05),
+          width: 1.5,
+        ),
       ),
       child: Row(
         children: [
@@ -35,31 +39,22 @@ class TimeframeSwitcher extends StatelessWidget {
         child: Obx(() {
           final isSelected = controller.selectedTab.value == title;
           return Container(
-            padding: EdgeInsets.symmetric(vertical: 12.h),
+            padding: EdgeInsets.symmetric(vertical: 10.h),
             decoration: BoxDecoration(
               color: isSelected
                   ? theme.colorScheme.primary
                   : Colors.transparent,
-              borderRadius: BorderRadius.circular(20.r),
-              boxShadow: isSelected
-                  ? [
-                      BoxShadow(
-                        color: theme.colorScheme.primary.withValues(alpha: 0.3),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      ),
-                    ]
-                  : null,
+              borderRadius: BorderRadius.circular(12.r),
             ),
             alignment: Alignment.center,
             child: Text(
               title,
               style: GoogleFonts.poppins(
-                fontSize: 14.sp,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                fontSize: 13.sp,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
                 color: isSelected
                     ? Colors.white
-                    : theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                    : theme.colorScheme.onSurface.withValues(alpha: 0.5),
               ),
             ),
           );

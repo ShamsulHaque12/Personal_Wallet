@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:personal_wallet/auth_screens/log_in_screen/controller/log_in_controller.dart';
+import 'package:personal_wallet/auth_screens/sign_up_screen/controller/sign_up_controller.dart';
+import 'package:personal_wallet/route/app_routes.dart';
 import 'package:personal_wallet/features/home_screen/widgets/tilt_3d_container.dart';
 import 'package:personal_wallet/features/transactions/views/flipping_3d_list_item.dart';
-import 'package:personal_wallet/route/app_routes.dart';
 
-class LogInScreen extends StatelessWidget {
-  LogInScreen({super.key});
-  final LogInController controller = Get.put(LogInController());
+class SignUpScreen extends StatelessWidget {
+  SignUpScreen({super.key});
+  final SignUpController controller = Get.put(SignUpController());
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +36,8 @@ class LogInScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20.h),
             Text(
-              'Welcome Back',
+              'Create Account',
               style: GoogleFonts.poppins(
                 fontSize: 26.sp,
                 fontWeight: FontWeight.bold,
@@ -47,15 +46,15 @@ class LogInScreen extends StatelessWidget {
             ),
             SizedBox(height: 4.h),
             Text(
-              'Sign in to access your dashboard.',
+              'Sign up to start tracking your finances.',
               style: GoogleFonts.poppins(
                 fontSize: 14.sp,
                 color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
               ),
             ),
-            SizedBox(height: 36.h),
+            SizedBox(height: 28.h),
 
-            // 3D Interactive Credentials Card
+            // 3D Credentials Card
             Flipping3DListItem(
               index: 0,
               child: Tilt3DContainer(
@@ -81,6 +80,62 @@ class LogInScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // Name Field
+                      Text(
+                        'Full Name',
+                        style: GoogleFonts.poppins(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600,
+                          color: theme.colorScheme.onSurface.withValues(
+                            alpha: 0.6,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 8.h),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: theme.scaffoldBackgroundColor,
+                          borderRadius: BorderRadius.circular(14.r),
+                          border: Border.all(
+                            color: theme.colorScheme.onSurface.withValues(
+                              alpha: 0.05,
+                            ),
+                            width: 1.5,
+                          ),
+                        ),
+                        child: TextField(
+                          controller: controller.nameController,
+                          keyboardType: TextInputType.name,
+                          style: GoogleFonts.poppins(
+                            fontSize: 14.sp,
+                            color: theme.colorScheme.onSurface,
+                          ),
+                          decoration: InputDecoration(
+                            prefixIcon: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 12.w),
+                              child: Icon(
+                                Icons.person_outline_rounded,
+                                color: theme.colorScheme.primary,
+                                size: 20.sp,
+                              ),
+                            ),
+                            prefixIconConstraints: const BoxConstraints(),
+                            hintText: 'Enter your name',
+                            hintStyle: GoogleFonts.poppins(
+                              color: theme.colorScheme.onSurface.withValues(
+                                alpha: 0.35,
+                              ),
+                            ),
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16.w,
+                              vertical: 14.h,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16.h),
+
                       // Email Field
                       Text(
                         'Email Address',
@@ -135,7 +190,7 @@ class LogInScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20.h),
+                      SizedBox(height: 16.h),
 
                       // Password Field
                       Text(
@@ -190,7 +245,7 @@ class LogInScreen extends StatelessWidget {
                                 ),
                                 onPressed: controller.togglePasswordVisibility,
                               ),
-                              hintText: 'Enter your password',
+                              hintText: 'Enter password',
                               hintStyle: GoogleFonts.poppins(
                                 color: theme.colorScheme.onSurface.withValues(
                                   alpha: 0.35,
@@ -205,18 +260,72 @@ class LogInScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: 12.h),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: GestureDetector(
-                          onTap: () =>
-                              _showForgotPasswordDialog(context, theme),
-                          child: Text(
-                            'Forgot Password?',
+                      SizedBox(height: 16.h),
+
+                      // Confirm Password Field
+                      Text(
+                        'Confirm Password',
+                        style: GoogleFonts.poppins(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600,
+                          color: theme.colorScheme.onSurface.withValues(
+                            alpha: 0.6,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 8.h),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: theme.scaffoldBackgroundColor,
+                          borderRadius: BorderRadius.circular(14.r),
+                          border: Border.all(
+                            color: theme.colorScheme.onSurface.withValues(
+                              alpha: 0.05,
+                            ),
+                            width: 1.5,
+                          ),
+                        ),
+                        child: Obx(
+                          () => TextField(
+                            controller: controller.confirmPasswordController,
+                            obscureText: !controller.isConfirmPasswordVisible.value,
                             style: GoogleFonts.poppins(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w600,
-                              color: theme.colorScheme.primary,
+                              fontSize: 14.sp,
+                              color: theme.colorScheme.onSurface,
+                            ),
+                            decoration: InputDecoration(
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                child: Icon(
+                                  Icons.lock_outline_rounded,
+                                  color: theme.colorScheme.primary,
+                                  size: 20.sp,
+                                ),
+                              ),
+                              prefixIconConstraints: const BoxConstraints(),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  controller.isConfirmPasswordVisible.value
+                                      ? Icons.visibility_off_rounded
+                                      : Icons.visibility_rounded,
+                                  color: theme.colorScheme.onSurface.withValues(
+                                    alpha: 0.4,
+                                  ),
+                                  size: 20.sp,
+                                ),
+                                onPressed: controller.toggleConfirmPasswordVisibility,
+                              ),
+                              hintText: 'Confirm password',
+                              hintStyle: GoogleFonts.poppins(
+                                color: theme.colorScheme.onSurface.withValues(
+                                  alpha: 0.35,
+                                ),
+                              ),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 16.w,
+                                vertical: 14.h,
+                              ),
                             ),
                           ),
                         ),
@@ -226,13 +335,13 @@ class LogInScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 32.h),
+            SizedBox(height: 28.h),
 
-            // Sign In Button
+            // Sign Up Button
             Flipping3DListItem(
               index: 1,
               child: GestureDetector(
-                onTap: controller.login,
+                onTap: controller.signUp,
                 child: Container(
                   width: double.infinity,
                   height: 52.h,
@@ -242,7 +351,7 @@ class LogInScreen extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      'Sign In',
+                      'Sign Up',
                       style: GoogleFonts.poppins(
                         color: Colors.white,
                         fontSize: 15.sp,
@@ -254,19 +363,21 @@ class LogInScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 24.h),
+
+            // Redirect back to Login link
             Center(
               child: GestureDetector(
-                onTap: () => Get.offNamed(AppRoutes.signUpScreen),
+                onTap: () => Get.offNamed(AppRoutes.logInScreen),
                 child: RichText(
                   text: TextSpan(
-                    text: "Don't have an account? ",
+                    text: 'Already have an account? ',
                     style: GoogleFonts.poppins(
                       color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
                       fontSize: 14.sp,
                     ),
                     children: [
                       TextSpan(
-                        text: 'Sign Up',
+                        text: 'Sign In',
                         style: GoogleFonts.poppins(
                           color: theme.colorScheme.primary,
                           fontWeight: FontWeight.bold,
@@ -280,130 +391,6 @@ class LogInScreen extends StatelessWidget {
             ),
             SizedBox(height: 20.h),
           ],
-        ),
-      ),
-    );
-  }
-
-  void _showForgotPasswordDialog(BuildContext context, ThemeData theme) {
-    final emailResetController = TextEditingController();
-    Get.dialog(
-      Dialog(
-        backgroundColor: theme.colorScheme.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24.r),
-          side: BorderSide(
-            color: theme.colorScheme.onSurface.withValues(alpha: 0.05),
-            width: 1.5,
-          ),
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(24.r),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Reset Password',
-                style: GoogleFonts.poppins(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.bold,
-                  color: theme.colorScheme.onSurface,
-                ),
-              ),
-              SizedBox(height: 8.h),
-              Text(
-                'Enter your email address to receive a password reset link.',
-                style: GoogleFonts.poppins(
-                  fontSize: 13.sp,
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
-                ),
-              ),
-              SizedBox(height: 20.h),
-              Container(
-                decoration: BoxDecoration(
-                  color: theme.scaffoldBackgroundColor,
-                  borderRadius: BorderRadius.circular(14.r),
-                  border: Border.all(
-                    color: theme.colorScheme.onSurface.withValues(alpha: 0.05),
-                    width: 1.5,
-                  ),
-                ),
-                child: TextField(
-                  controller: emailResetController,
-                  keyboardType: TextInputType.emailAddress,
-                  style: GoogleFonts.poppins(
-                    fontSize: 14.sp,
-                    color: theme.colorScheme.onSurface,
-                  ),
-                  decoration: InputDecoration(
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12.w),
-                      child: Icon(
-                        Icons.mail_outline_rounded,
-                        color: theme.colorScheme.primary,
-                        size: 20.sp,
-                      ),
-                    ),
-                    prefixIconConstraints: const BoxConstraints(),
-                    hintText: 'Enter your email',
-                    hintStyle: GoogleFonts.poppins(
-                      color: theme.colorScheme.onSurface.withValues(
-                        alpha: 0.35,
-                      ),
-                    ),
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 16.w,
-                      vertical: 14.h,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 24.h),
-              GestureDetector(
-                onTap: () {
-                  final email = emailResetController.text.trim();
-                  if (email.isNotEmpty) {
-                    Get.back();
-                    Get.snackbar(
-                      'Email Sent',
-                      'Password reset link sent to $email.',
-                      snackPosition: SnackPosition.TOP,
-                      backgroundColor: Colors.green,
-                      colorText: Colors.white,
-                    );
-                  } else {
-                    Get.snackbar(
-                      'Error',
-                      'Please enter your email.',
-                      snackPosition: SnackPosition.TOP,
-                      backgroundColor: Colors.redAccent,
-                      colorText: Colors.white,
-                    );
-                  }
-                },
-                child: Container(
-                  width: double.infinity,
-                  height: 48.h,
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primary,
-                    borderRadius: BorderRadius.circular(14.r),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Send Reset Link',
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );

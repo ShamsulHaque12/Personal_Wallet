@@ -4,7 +4,7 @@ import 'package:personal_wallet/features/home_screen/controller/home_screen_cont
 
 class TransactionsController extends GetxController {
   var selectedFilter = 'Daily'.obs;
-  
+
   final filters = ['Daily', 'Monthly', 'Yearly', 'Categories'];
 
   var transactionsList = <TransactionModel>[
@@ -63,6 +63,23 @@ class TransactionsController extends GetxController {
       isExpense: true,
     ),
   ].obs;
+
+  double get totalIncome {
+    return transactionsList
+        .where((tx) => !tx.isExpense)
+        .fold(0.0, (sum, tx) => sum + _parseAmount(tx.amount));
+  }
+
+  double get totalExpense {
+    return transactionsList
+        .where((tx) => tx.isExpense)
+        .fold(0.0, (sum, tx) => sum + _parseAmount(tx.amount));
+  }
+
+  double _parseAmount(String amountStr) {
+    final clean = amountStr.replaceAll(RegExp(r'[^\d.]'), '');
+    return double.tryParse(clean) ?? 0.0;
+  }
 
   void changeFilter(String filter) {
     selectedFilter.value = filter;

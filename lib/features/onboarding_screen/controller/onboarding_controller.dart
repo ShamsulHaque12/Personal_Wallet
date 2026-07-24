@@ -7,6 +7,17 @@ import 'package:personal_wallet/theme/app_images.dart';
 class OnboardingController extends GetxController {
   final PageController pageController = PageController();
   final currentIndex = 0.obs;
+  final scrollPosition = 0.0.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    pageController.addListener(() {
+      if (pageController.hasClients) {
+        scrollPosition.value = pageController.page ?? 0.0;
+      }
+    });
+  }
 
   final List<OnboardingModel> onboardingList = [
     OnboardingModel(

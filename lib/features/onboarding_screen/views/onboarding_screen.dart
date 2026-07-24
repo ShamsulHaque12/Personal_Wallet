@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_wallet/features/onboarding_screen/controller/onboarding_controller.dart';
+import 'package:personal_wallet/features/home_screen/widgets/tilt_3d_container.dart';
 
 class OnboardingScreen extends StatelessWidget {
   OnboardingScreen({super.key});
@@ -14,50 +13,95 @@ class OnboardingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
-          /// PageView
+          /// PageView with 3D Fold Transition
           PageView.builder(
             controller: controller.pageController,
             itemCount: controller.onboardingList.length,
             onPageChanged: controller.onPageChanged,
             itemBuilder: (context, index) {
               final item = controller.onboardingList[index];
-              return Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(item.image, height: 300.h),
-                    SizedBox(height: 24.h),
-                    Text(
-                      item.title,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
-                        fontSize: 26.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+              return Obx(() {
+                final pageOffset = index - controller.scrollPosition.value;
+                // Calculate 3D book-fold page turn rotation and scaling
+                final double rotateY = pageOffset * -0.35;
+                final double scale = (1.0 - pageOffset.abs() * 0.15).clamp(0.85, 1.0);
+                final double opacity = (1.0 - pageOffset.abs() * 0.8).clamp(0.0, 1.0);
+
+                return Transform.scale(
+                  scale: scale,
+                  child: Transform(
+                    alignment: pageOffset < 0
+                        ? Alignment.centerRight
+                        : Alignment.centerLeft,
+                    transform: Matrix4.identity()
+                      ..setEntry(3, 2, 0.001) // perspective
+                      ..rotateY(rotateY),
+                    child: Opacity(
+                      opacity: opacity,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 24.w),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Tilt3DContainer(
+                            child: Container(
+                              padding: EdgeInsets.all(12.r),
+                              decoration: BoxDecoration(
+                                color: theme.colorScheme.surface,
+                                borderRadius: BorderRadius.circular(24.r),
+                                border: Border.all(
+                                  color: theme.colorScheme.onSurface
+                                      .withValues(alpha: 0.03),
+                                  width: 1.5,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.03),
+                                    blurRadius: 16,
+                                    offset: const Offset(0, 8),
+                                  ),
+                                ],
+                              ),
+                              child: Image.asset(item.image, height: 280.h),
+                            ),
+                          ),
+                          SizedBox(height: 32.h),
+                          Text(
+                            item.title,
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.poppins(
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.bold,
+                              color: theme.colorScheme.onSurface,
+                            ),
+                          ),
+                          SizedBox(height: 12.h),
+                          Text(
+                            item.description,
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.poppins(
+                              fontSize: 14.sp,
+                              color: theme.colorScheme.onSurface.withValues(
+                                alpha: 0.5,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    SizedBox(height: 8.h),
-                    Text(
-                      item.description,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
-                        fontSize: 16.sp,
-                        color: Colors.white.withValues(alpha: 0.7),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               );
-            },
+            });
+          },
           ),
 
           /// Skip Button (hide on last page)
           Positioned(
-            top: 80.h,
+            top: kToolbarHeight + 10.h,
             right: 24,
             child: Obx(() {
               if (controller.currentIndex.value ==
@@ -69,9 +113,9 @@ class OnboardingScreen extends StatelessWidget {
                 child: Text(
                   'Skip',
                   style: GoogleFonts.poppins(
-                    fontSize: 16.sp,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
-                    color: Colors.white,
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                   ),
                 ),
               );
@@ -80,7 +124,7 @@ class OnboardingScreen extends StatelessWidget {
 
           /// Bottom Indicator + Button
           Positioned(
-            bottom: 40,
+            bottom: 40.h,
             left: 24,
             right: 24,
             child: Column(
@@ -98,8 +142,10 @@ class OnboardingScreen extends StatelessWidget {
                         height: 8.h,
                         decoration: BoxDecoration(
                           color: controller.currentIndex.value == index
-                              ? Colors.white
-                              : Colors.white.withValues(alpha: 0.3),
+                              ? theme.colorScheme.primary
+                              : theme.colorScheme.onSurface.withValues(
+                                  alpha: 0.15,
+                                ),
                           borderRadius: BorderRadius.circular(4.r),
                         ),
                       ),
@@ -111,15 +157,15 @@ class OnboardingScreen extends StatelessWidget {
                 /// Continue Button
                 SizedBox(
                   width: double.infinity,
-                  height: 50.h,
+                  height: 52.h,
                   child: ElevatedButton(
                     onPressed: controller.nextPage,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: theme.colorScheme.primary,
+                      backgroundColor: theme.colorScheme.primary,
+                      foregroundColor: Colors.white,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14.r),
+                        borderRadius: BorderRadius.circular(16.r),
                       ),
                     ),
                     child: Obx(
@@ -129,14 +175,14 @@ class OnboardingScreen extends StatelessWidget {
                             ? 'Get Started'
                             : 'Continue',
                         style: GoogleFonts.poppins(
-                          fontSize: 16.sp,
+                          fontSize: 15.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 20.h),
+                SizedBox(height: 12.h),
               ],
             ),
           ),
