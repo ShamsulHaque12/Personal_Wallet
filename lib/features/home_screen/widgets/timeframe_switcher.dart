@@ -14,7 +14,7 @@ class TimeframeSwitcher extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(6.h),
       decoration: BoxDecoration(
-        color: theme.colorScheme.secondaryContainer.withOpacity(0.5),
+        color: theme.colorScheme.secondaryContainer.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(25.r),
       ),
       child: Row(
@@ -37,12 +37,14 @@ class TimeframeSwitcher extends StatelessWidget {
           return Container(
             padding: EdgeInsets.symmetric(vertical: 12.h),
             decoration: BoxDecoration(
-              color: isSelected ? theme.colorScheme.primary : Colors.transparent,
+              color: isSelected
+                  ? theme.colorScheme.primary
+                  : Colors.transparent,
               borderRadius: BorderRadius.circular(20.r),
               boxShadow: isSelected
                   ? [
                       BoxShadow(
-                        color: theme.colorScheme.primary.withOpacity(0.3),
+                        color: theme.colorScheme.primary.withValues(alpha: 0.3),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       ),
@@ -57,7 +59,7 @@ class TimeframeSwitcher extends StatelessWidget {
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                 color: isSelected
                     ? Colors.white
-                    : theme.colorScheme.onSurface.withOpacity(0.6),
+                    : theme.colorScheme.onSurface.withValues(alpha: 0.6),
               ),
             ),
           );
@@ -65,5 +67,4 @@ class TimeframeSwitcher extends StatelessWidget {
       ),
     );
   }
-
 }

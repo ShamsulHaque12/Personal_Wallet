@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_wallet/features/security/controller/security_controller.dart';
+
 class SecurityScreen extends StatelessWidget {
   SecurityScreen({super.key});
 
@@ -28,7 +29,10 @@ class SecurityScreen extends StatelessWidget {
               children: [
                 // Header Row
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 10.h,
+                  ),
                   child: Row(
                     children: [
                       const BackButton(color: Colors.white),
@@ -70,22 +74,26 @@ class SecurityScreen extends StatelessWidget {
                             title: 'Face ID',
                             subtitle: 'Use Face ID for quick login',
                             icon: Icons.face_rounded,
-                            trailing: Obx(() => Switch(
-                              value: controller.isFaceIDEnabled.value,
-                              onChanged: controller.toggleFaceID,
-                              activeThumbColor: theme.colorScheme.primary,
-                            )),
+                            trailing: Obx(
+                              () => Switch(
+                                value: controller.isFaceIDEnabled.value,
+                                onChanged: controller.toggleFaceID,
+                                activeThumbColor: theme.colorScheme.primary,
+                              ),
+                            ),
                           ),
                           _buildSecurityTile(
                             context: context,
                             title: 'Biometric ID',
                             subtitle: 'Use fingerprint for quick login',
                             icon: Icons.fingerprint_rounded,
-                            trailing: Obx(() => Switch(
-                              value: controller.isBiometricEnabled.value,
-                              onChanged: controller.toggleBiometric,
-                              activeThumbColor: theme.colorScheme.primary,
-                            )),
+                            trailing: Obx(
+                              () => Switch(
+                                value: controller.isBiometricEnabled.value,
+                                onChanged: controller.toggleBiometric,
+                                activeThumbColor: theme.colorScheme.primary,
+                              ),
+                            ),
                           ),
 
                           SizedBox(height: 32.h),
@@ -96,11 +104,13 @@ class SecurityScreen extends StatelessWidget {
                             title: 'Two-Factor Authentication',
                             subtitle: 'Secure your account with 2FA',
                             icon: Icons.domain_verification_rounded,
-                            trailing: Obx(() => Switch(
-                              value: controller.isTwoFactorEnabled.value,
-                              onChanged: controller.toggleTwoFactor,
-                              activeThumbColor: theme.colorScheme.primary,
-                            )),
+                            trailing: Obx(
+                              () => Switch(
+                                value: controller.isTwoFactorEnabled.value,
+                                onChanged: controller.toggleTwoFactor,
+                                activeThumbColor: theme.colorScheme.primary,
+                              ),
+                            ),
                           ),
                           _buildSecurityTile(
                             context: context,
@@ -109,9 +119,11 @@ class SecurityScreen extends StatelessWidget {
                             icon: Icons.lock_outline_rounded,
                             onTap: controller.onChangePassword,
                             trailing: Icon(
-                              Icons.arrow_forward_ios, 
+                              Icons.arrow_forward_ios,
                               size: 16,
-                              color: theme.colorScheme.onSurface.withOpacity(0.5),
+                              color: theme.colorScheme.onSurface.withValues(
+                                alpha: 0.5,
+                              ),
                             ),
                           ),
                         ],
@@ -159,7 +171,7 @@ class SecurityScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -170,7 +182,7 @@ class SecurityScreen extends StatelessWidget {
         leading: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: theme.colorScheme.primary.withOpacity(0.1),
+            color: theme.colorScheme.primary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(10.r),
           ),
           child: Icon(icon, color: theme.colorScheme.primary, size: 24.sp),
@@ -187,7 +199,7 @@ class SecurityScreen extends StatelessWidget {
           subtitle,
           style: GoogleFonts.poppins(
             fontSize: 12.sp,
-            color: theme.colorScheme.onSurface.withOpacity(0.5),
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
           ),
         ),
         trailing: trailing,
@@ -196,4 +208,3 @@ class SecurityScreen extends StatelessWidget {
     );
   }
 }
-

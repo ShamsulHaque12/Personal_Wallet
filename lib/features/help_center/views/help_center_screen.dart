@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_wallet/features/help_center/controller/help_center_controller.dart';
+
 class HelpCenterScreen extends StatelessWidget {
   HelpCenterScreen({super.key});
 
@@ -28,7 +29,10 @@ class HelpCenterScreen extends StatelessWidget {
               children: [
                 // Header Row
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 10.h,
+                  ),
                   child: Row(
                     children: [
                       const BackButton(color: Colors.white),
@@ -72,7 +76,7 @@ class HelpCenterScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(15.r),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.04),
+                                  color: Colors.black.withValues(alpha: 0.04),
                                   blurRadius: 10,
                                   offset: const Offset(0, 4),
                                 ),
@@ -87,11 +91,15 @@ class HelpCenterScreen extends StatelessWidget {
                                 hintText: 'Search for help...',
                                 border: InputBorder.none,
                                 icon: Icon(
-                                  Icons.search_rounded, 
-                                  color: theme.colorScheme.onSurface.withOpacity(0.4),
+                                  Icons.search_rounded,
+                                  color: theme.colorScheme.onSurface.withValues(
+                                    alpha: 0.4,
+                                  ),
                                 ),
                                 hintStyle: GoogleFonts.poppins(
-                                  color: theme.colorScheme.onSurface.withOpacity(0.4),
+                                  color: theme.colorScheme.onSurface.withValues(
+                                    alpha: 0.4,
+                                  ),
                                 ),
                               ),
                             ),
@@ -110,13 +118,19 @@ class HelpCenterScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 16.h),
 
-                          Obx(() => Column(
-                            children: controller.faqs.map((faq) => _buildFAQTile(
-                              context: context,
-                              question: faq['question']!,
-                              answer: faq['answer']!,
-                            )).toList(),
-                          )),
+                          Obx(
+                            () => Column(
+                              children: controller.faqs
+                                  .map(
+                                    (faq) => _buildFAQTile(
+                                      context: context,
+                                      question: faq['question']!,
+                                      answer: faq['answer']!,
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          ),
 
                           SizedBox(height: 32.h),
 
@@ -124,7 +138,9 @@ class HelpCenterScreen extends StatelessWidget {
                           Container(
                             padding: EdgeInsets.all(20.r),
                             decoration: BoxDecoration(
-                              color: theme.colorScheme.primary.withOpacity(0.1),
+                              color: theme.colorScheme.primary.withValues(
+                                alpha: 0.1,
+                              ),
                               borderRadius: BorderRadius.circular(25.r),
                             ),
                             child: Row(
@@ -132,26 +148,32 @@ class HelpCenterScreen extends StatelessWidget {
                                 CircleAvatar(
                                   radius: 25.r,
                                   backgroundColor: theme.colorScheme.primary,
-                                  child: const Icon(Icons.headset_mic_rounded, color: Colors.white),
+                                  child: const Icon(
+                                    Icons.headset_mic_rounded,
+                                    color: Colors.white,
+                                  ),
                                 ),
                                 SizedBox(width: 16.w),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Still need help?',
                                         style: GoogleFonts.poppins(
                                           fontSize: 16.sp,
                                           fontWeight: FontWeight.bold,
-                                          color: theme.textTheme.bodyLarge?.color,
+                                          color:
+                                              theme.textTheme.bodyLarge?.color,
                                         ),
                                       ),
                                       Text(
                                         'Speak to our support team.',
                                         style: GoogleFonts.poppins(
                                           fontSize: 12.sp,
-                                          color: theme.colorScheme.onSurface.withOpacity(0.6),
+                                          color: theme.colorScheme.onSurface
+                                              .withValues(alpha: 0.6),
                                         ),
                                       ),
                                     ],
@@ -192,7 +214,7 @@ class HelpCenterScreen extends StatelessWidget {
 
   Widget _buildFAQTile({
     required BuildContext context,
-    required String question, 
+    required String question,
     required String answer,
   }) {
     final theme = Theme.of(context);
@@ -203,7 +225,7 @@ class HelpCenterScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(15.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -219,7 +241,7 @@ class HelpCenterScreen extends StatelessWidget {
           ),
         ),
         iconColor: theme.colorScheme.primary,
-        collapsedIconColor: theme.colorScheme.onSurface.withOpacity(0.4),
+        collapsedIconColor: theme.colorScheme.onSurface.withValues(alpha: 0.4),
         children: [
           Padding(
             padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 16.h),
@@ -227,7 +249,7 @@ class HelpCenterScreen extends StatelessWidget {
               answer,
               style: GoogleFonts.poppins(
                 fontSize: 13.sp,
-                color: theme.colorScheme.onSurface.withOpacity(0.6),
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
               ),
             ),
           ),
@@ -236,4 +258,3 @@ class HelpCenterScreen extends StatelessWidget {
     );
   }
 }
-

@@ -5,6 +5,7 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_wallet/features/onboarding_screen/controller/onboarding_controller.dart';
+
 class OnboardingScreen extends StatelessWidget {
   OnboardingScreen({super.key});
   final OnboardingController controller = Get.put(OnboardingController());
@@ -45,7 +46,7 @@ class OnboardingScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
                         fontSize: 16.sp,
-                        color: Colors.white.withOpacity(0.7),
+                        color: Colors.white.withValues(alpha: 0.7),
                       ),
                     ),
                   ],
@@ -98,7 +99,7 @@ class OnboardingScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: controller.currentIndex.value == index
                               ? Colors.white
-                              : Colors.white.withOpacity(0.3),
+                              : Colors.white.withValues(alpha: 0.3),
                           borderRadius: BorderRadius.circular(4.r),
                         ),
                       ),
@@ -144,4 +145,3 @@ class OnboardingScreen extends StatelessWidget {
     );
   }
 }
-

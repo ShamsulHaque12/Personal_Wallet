@@ -15,7 +15,7 @@ class SavingsCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(30.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -33,8 +33,12 @@ class SavingsCard extends StatelessWidget {
                 child: CircularProgressIndicator(
                   value: 0.7,
                   strokeWidth: 6,
-                  backgroundColor: theme.colorScheme.onSurface.withOpacity(0.1),
-                  valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.primary),
+                  backgroundColor: theme.colorScheme.onSurface.withValues(
+                    alpha: 0.1,
+                  ),
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    theme.colorScheme.primary,
+                  ),
                 ),
               ),
               Text(
@@ -51,7 +55,7 @@ class SavingsCard extends StatelessWidget {
           Container(
             height: 100.h,
             width: 1.5,
-            color: theme.colorScheme.onSurface.withOpacity(0.1),
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.1),
           ),
           SizedBox(width: 20.w),
           Expanded(
@@ -65,7 +69,7 @@ class SavingsCard extends StatelessWidget {
                   isPositive: true,
                 ),
                 Divider(
-                  color: theme.colorScheme.onSurface.withOpacity(0.1),
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.1),
                   thickness: 1.5,
                 ),
                 _buildRevenueItem(
@@ -104,7 +108,7 @@ class SavingsCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.poppins(
                   fontSize: 11.sp,
-                  color: theme.colorScheme.onSurface.withOpacity(0.6),
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                 ),
               ),
               Text(
@@ -114,7 +118,9 @@ class SavingsCard extends StatelessWidget {
                 style: GoogleFonts.poppins(
                   fontSize: 15.sp,
                   fontWeight: FontWeight.bold,
-                  color: isPositive ? theme.colorScheme.primary : Colors.redAccent,
+                  color: isPositive
+                      ? theme.colorScheme.primary
+                      : Colors.redAccent,
                 ),
               ),
             ],
@@ -123,5 +129,4 @@ class SavingsCard extends StatelessWidget {
       ],
     );
   }
-
 }

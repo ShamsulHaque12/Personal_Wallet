@@ -54,7 +54,7 @@ class AnalyticsScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -70,7 +70,7 @@ class AnalyticsScreen extends StatelessWidget {
                 'Overall Spend',
                 style: GoogleFonts.poppins(
                   fontSize: 14.sp,
-                  color: theme.colorScheme.onSurface.withOpacity(0.6),
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                 ),
               ),
               Text(
@@ -85,8 +85,10 @@ class AnalyticsScreen extends StatelessWidget {
           SizedBox(height: 16.h),
           LinearProgressIndicator(
             value: 1250 / 2000,
-            backgroundColor: theme.colorScheme.primary.withOpacity(0.2),
-            valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.primary),
+            backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.2),
+            valueColor: AlwaysStoppedAnimation<Color>(
+              theme.colorScheme.primary,
+            ),
             minHeight: 10.h,
             borderRadius: BorderRadius.circular(10.r),
           ),
@@ -105,7 +107,7 @@ class AnalyticsScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -118,13 +120,13 @@ class AnalyticsScreen extends StatelessWidget {
             Icon(
               Icons.pie_chart_outline,
               size: 60.sp,
-              color: theme.colorScheme.primary.withOpacity(0.3),
+              color: theme.colorScheme.primary.withValues(alpha: 0.3),
             ),
             SizedBox(height: 8.h),
             Text(
               'Chart goes here',
               style: GoogleFonts.poppins(
-                color: theme.colorScheme.onSurface.withOpacity(0.5),
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
               ),
             ),
           ],

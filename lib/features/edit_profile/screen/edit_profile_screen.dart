@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_wallet/features/edit_profile/controller/edit_profile_controller.dart';
+
 class EditProfileScreen extends StatelessWidget {
   EditProfileScreen({super.key});
 
@@ -61,7 +62,7 @@ class EditProfileScreen extends StatelessWidget {
                       Container(
                         padding: EdgeInsets.all(8.r),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                          color: Colors.white.withValues(alpha: 0.2),
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
@@ -80,36 +81,38 @@ class EditProfileScreen extends StatelessWidget {
                 Center(
                   child: Stack(
                     children: [
-                      Obx(() => Container(
-                        width: 140.r,
-                        height: 140.r,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.white.withOpacity(0.2),
-                            width: 2,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 20,
-                              offset: const Offset(0, 10),
+                      Obx(
+                        () => Container(
+                          width: 140.r,
+                          height: 140.r,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.white.withValues(alpha: 0.2),
+                              width: 2,
                             ),
-                          ],
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.1),
+                                blurRadius: 20,
+                                offset: const Offset(0, 10),
+                              ),
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(70.r),
+                            child: controller.pickedImage.value != null
+                                ? Image.file(
+                                    File(controller.pickedImage.value!.path),
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.asset(
+                                    controller.profileImage,
+                                    fit: BoxFit.cover,
+                                  ),
+                          ),
                         ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(70.r),
-                          child: controller.pickedImage.value != null
-                              ? Image.file(
-                                  File(controller.pickedImage.value!.path),
-                                  fit: BoxFit.cover,
-                                )
-                              : Image.asset(
-                                  controller.profileImage,
-                                  fit: BoxFit.cover,
-                                ),
-                        ),
-                      )),
+                      ),
                       Positioned(
                         bottom: 5,
                         right: 5,
@@ -120,7 +123,10 @@ class EditProfileScreen extends StatelessWidget {
                             decoration: BoxDecoration(
                               color: theme.colorScheme.primary,
                               shape: BoxShape.circle,
-                              border: Border.all(color: theme.colorScheme.surface, width: 2),
+                              border: Border.all(
+                                color: theme.colorScheme.surface,
+                                width: 2,
+                              ),
                             ),
                             child: Icon(
                               Icons.camera_alt_outlined,
@@ -151,7 +157,7 @@ class EditProfileScreen extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w400,
-                    color: Colors.white.withOpacity(0.7),
+                    color: Colors.white.withValues(alpha: 0.7),
                   ),
                 ),
 
@@ -171,7 +177,10 @@ class EditProfileScreen extends StatelessWidget {
                     child: SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 24.w,
+                          vertical: 24.h,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -187,17 +196,26 @@ class EditProfileScreen extends StatelessWidget {
 
                             // Username Field
                             _buildFieldLabel(context, 'Username'),
-                            _buildTextField(context, controller.usernameController),
+                            _buildTextField(
+                              context,
+                              controller.usernameController,
+                            ),
                             SizedBox(height: 20.h),
 
                             // Phone Field
                             _buildFieldLabel(context, 'Phone'),
-                            _buildTextField(context, controller.phoneController),
+                            _buildTextField(
+                              context,
+                              controller.phoneController,
+                            ),
                             SizedBox(height: 20.h),
 
                             // Email Address Field
                             _buildFieldLabel(context, 'Email Address'),
-                            _buildTextField(context, controller.emailController),
+                            _buildTextField(
+                              context,
+                              controller.emailController,
+                            ),
 
                             SizedBox(height: 40.h),
 
@@ -213,7 +231,8 @@ class EditProfileScreen extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(40.r),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: theme.colorScheme.primary.withOpacity(0.3),
+                                        color: theme.colorScheme.primary
+                                            .withValues(alpha: 0.3),
                                         blurRadius: 12,
                                         offset: const Offset(0, 6),
                                       ),
@@ -262,11 +281,14 @@ class EditProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTextField(BuildContext context, TextEditingController controller) {
+  Widget _buildTextField(
+    BuildContext context,
+    TextEditingController controller,
+  ) {
     final theme = Theme.of(context);
     return Container(
       decoration: BoxDecoration(
-        color: theme.colorScheme.secondaryContainer.withOpacity(0.5),
+        color: theme.colorScheme.secondaryContainer.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: TextField(
@@ -286,4 +308,3 @@ class EditProfileScreen extends StatelessWidget {
     );
   }
 }
-

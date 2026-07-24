@@ -36,7 +36,7 @@ class SplashScreen extends StatelessWidget {
               'and save your money',
               style: GoogleFonts.poppins(
                 fontSize: 16.sp,
-                color: Colors.white.withOpacity(0.7),
+                color: Colors.white.withValues(alpha: 0.7),
                 fontWeight: FontWeight.bold,
               ),
             ),

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_wallet/features/settings/controller/settings_controller.dart';
+
 class SettingsScreen extends StatelessWidget {
   SettingsScreen({super.key});
 
@@ -28,7 +29,10 @@ class SettingsScreen extends StatelessWidget {
               children: [
                 // Header Row
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 10.h,
+                  ),
                   child: Row(
                     children: [
                       const BackButton(color: Colors.white),
@@ -69,13 +73,14 @@ class SettingsScreen extends StatelessWidget {
                             context: context,
                             title: 'Notifications',
                             icon: Icons.notifications_active_rounded,
-                            trailing: Obx(() => Switch(
-                              value: controller.isNotificationsEnabled.value,
-                              onChanged: controller.toggleNotifications,
-                              activeThumbColor: theme.colorScheme.primary,
-                            )),
+                            trailing: Obx(
+                              () => Switch(
+                                value: controller.isNotificationsEnabled.value,
+                                onChanged: controller.toggleNotifications,
+                                activeThumbColor: theme.colorScheme.primary,
+                              ),
+                            ),
                           ),
-
 
                           SizedBox(height: 32.h),
 
@@ -84,13 +89,15 @@ class SettingsScreen extends StatelessWidget {
                             context: context,
                             title: 'Language',
                             icon: Icons.language_rounded,
-                            trailing: Obx(() => Text(
-                              controller.selectedLanguage.value,
-                              style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w600,
-                                color: theme.colorScheme.primary,
+                            trailing: Obx(
+                              () => Text(
+                                controller.selectedLanguage.value,
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w600,
+                                  color: theme.colorScheme.primary,
+                                ),
                               ),
-                            )),
+                            ),
                             onTap: () {
                               _showSelectionDialog(
                                 context,
@@ -104,13 +111,15 @@ class SettingsScreen extends StatelessWidget {
                             context: context,
                             title: 'Currency',
                             icon: Icons.monetization_on_rounded,
-                            trailing: Obx(() => Text(
-                              controller.selectedCurrency.value,
-                              style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w600,
-                                color: theme.colorScheme.primary,
+                            trailing: Obx(
+                              () => Text(
+                                controller.selectedCurrency.value,
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w600,
+                                  color: theme.colorScheme.primary,
+                                ),
                               ),
-                            )),
+                            ),
                             onTap: () {
                               _showSelectionDialog(
                                 context,
@@ -164,7 +173,7 @@ class SettingsScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -175,7 +184,7 @@ class SettingsScreen extends StatelessWidget {
         leading: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: theme.colorScheme.primary.withOpacity(0.1),
+            color: theme.colorScheme.primary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(10.r),
           ),
           child: Icon(icon, color: theme.colorScheme.primary, size: 24.sp),
@@ -220,26 +229,27 @@ class SettingsScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20.h),
-            ...options.map((opt) => ListTile(
-              title: Text(
-                opt, 
-                style: GoogleFonts.poppins(
-                  color: theme.textTheme.bodyLarge?.color,
+            ...options.map(
+              (opt) => ListTile(
+                title: Text(
+                  opt,
+                  style: GoogleFonts.poppins(
+                    color: theme.textTheme.bodyLarge?.color,
+                  ),
                 ),
+                trailing: Icon(
+                  Icons.check_circle_outline_rounded,
+                  color: theme.colorScheme.primary,
+                ),
+                onTap: () {
+                  onSelect(opt);
+                  Get.back();
+                },
               ),
-              trailing: Icon(
-                Icons.check_circle_outline_rounded,
-                color: theme.colorScheme.primary,
-              ),
-              onTap: () {
-                onSelect(opt);
-                Get.back();
-              },
-            )),
+            ),
           ],
         ),
       ),
     );
   }
 }
-

@@ -19,12 +19,7 @@ class TransactionsScreen extends StatelessWidget {
           'Transactions',
           style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search),
-          ),
-        ],
+        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +38,11 @@ class TransactionsScreen extends StatelessWidget {
           Expanded(
             child: Obx(
               () => ListView.separated(
-                padding: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 100.h),
+                padding: EdgeInsets.only(
+                  left: 20.w,
+                  right: 20.w,
+                  bottom: 100.h,
+                ),
                 itemCount: controller.transactionsList.length,
                 separatorBuilder: (context, index) => SizedBox(height: 16.h),
                 itemBuilder: (context, index) {
@@ -58,7 +57,10 @@ class TransactionsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFilterChips(BuildContext context, TransactionsController controller) {
+  Widget _buildFilterChips(
+    BuildContext context,
+    TransactionsController controller,
+  ) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
@@ -85,7 +87,9 @@ class TransactionsScreen extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.r),
                   side: BorderSide(
-                    color: isSelected ? Colors.transparent : Colors.grey.withOpacity(0.3),
+                    color: isSelected
+                        ? Colors.transparent
+                        : Colors.grey.withValues(alpha: 0.3),
                   ),
                 ),
               ),

@@ -27,7 +27,7 @@ class NavigationBarView extends StatelessWidget {
         borderRadius: BorderRadius.circular(30.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -47,7 +47,12 @@ class NavigationBarView extends StatelessWidget {
     );
   }
 
-  Widget _buildNavItem(BuildContext context, IconData icon, String label, int index) {
+  Widget _buildNavItem(
+    BuildContext context,
+    IconData icon,
+    String label,
+    int index,
+  ) {
     final theme = Theme.of(context);
     return GestureDetector(
       onTap: () => controller.changeIndex(index),
@@ -65,7 +70,7 @@ class NavigationBarView extends StatelessWidget {
                 icon,
                 color: isActive
                     ? theme.colorScheme.primary
-                    : theme.colorScheme.onSurface.withOpacity(0.4),
+                    : theme.colorScheme.onSurface.withValues(alpha: 0.4),
                 size: 24.sp,
               ),
               SizedBox(height: 4.h),
@@ -76,7 +81,7 @@ class NavigationBarView extends StatelessWidget {
                   fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
                   color: isActive
                       ? theme.colorScheme.primary
-                      : theme.colorScheme.onSurface.withOpacity(0.4),
+                      : theme.colorScheme.onSurface.withValues(alpha: 0.4),
                 ),
               ),
             ],
@@ -100,17 +105,13 @@ class NavigationBarView extends StatelessWidget {
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: theme.colorScheme.primary.withOpacity(0.4),
+              color: theme.colorScheme.primary.withValues(alpha: 0.4),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
           ],
         ),
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-          size: 28.sp,
-        ),
+        child: Icon(Icons.add, color: Colors.white, size: 28.sp),
       ),
     );
   }

@@ -15,7 +15,7 @@ class TransactionTile extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: tx.iconColor.withOpacity(0.15),
+            color: tx.iconColor.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(15.r),
           ),
           child: Icon(tx.icon, color: tx.iconColor, size: 24.sp),
@@ -37,7 +37,7 @@ class TransactionTile extends StatelessWidget {
                 tx.date,
                 style: GoogleFonts.poppins(
                   fontSize: 12.sp,
-                  color: theme.colorScheme.primary.withOpacity(0.7),
+                  color: theme.colorScheme.primary.withValues(alpha: 0.7),
                 ),
               ),
             ],
@@ -46,20 +46,20 @@ class TransactionTile extends StatelessWidget {
         Container(
           height: 20.h,
           width: 1,
-          color: theme.colorScheme.onSurface.withOpacity(0.1),
+          color: theme.colorScheme.onSurface.withValues(alpha: 0.1),
           margin: EdgeInsets.symmetric(horizontal: 12.w),
         ),
         Text(
           tx.subtitle,
           style: GoogleFonts.poppins(
             fontSize: 12.sp,
-            color: theme.colorScheme.onSurface.withOpacity(0.6),
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
           ),
         ),
         Container(
           height: 20.h,
           width: 1,
-          color: theme.colorScheme.onSurface.withOpacity(0.1),
+          color: theme.colorScheme.onSurface.withValues(alpha: 0.1),
           margin: EdgeInsets.symmetric(horizontal: 12.w),
         ),
         Text(
@@ -67,13 +67,12 @@ class TransactionTile extends StatelessWidget {
           style: GoogleFonts.poppins(
             fontSize: 15.sp,
             fontWeight: FontWeight.bold,
-            color: tx.isExpense 
-                ? theme.colorScheme.error 
+            color: tx.isExpense
+                ? theme.colorScheme.error
                 : theme.colorScheme.primary,
           ),
         ),
       ],
     );
   }
-
 }

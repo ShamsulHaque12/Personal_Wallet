@@ -6,7 +6,8 @@ class AddTransactionBottomSheet extends StatefulWidget {
   const AddTransactionBottomSheet({super.key});
 
   @override
-  State<AddTransactionBottomSheet> createState() => _AddTransactionBottomSheetState();
+  State<AddTransactionBottomSheet> createState() =>
+      _AddTransactionBottomSheetState();
 }
 
 class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
@@ -15,17 +16,37 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
   String selectedCategory = 'Food & Drink';
 
   final List<Map<String, dynamic>> categories = [
-    {'name': 'Food & Drink', 'icon': Icons.local_cafe_rounded, 'color': Colors.brown},
-    {'name': 'Groceries', 'icon': Icons.shopping_cart_rounded, 'color': Colors.orange},
-    {'name': 'Transport', 'icon': Icons.directions_car_rounded, 'color': Colors.blue},
-    {'name': 'Entertainment', 'icon': Icons.movie_creation_rounded, 'color': Colors.redAccent},
-    {'name': 'Income', 'icon': Icons.account_balance_wallet, 'color': Colors.green},
+    {
+      'name': 'Food & Drink',
+      'icon': Icons.local_cafe_rounded,
+      'color': Colors.brown,
+    },
+    {
+      'name': 'Groceries',
+      'icon': Icons.shopping_cart_rounded,
+      'color': Colors.orange,
+    },
+    {
+      'name': 'Transport',
+      'icon': Icons.directions_car_rounded,
+      'color': Colors.blue,
+    },
+    {
+      'name': 'Entertainment',
+      'icon': Icons.movie_creation_rounded,
+      'color': Colors.redAccent,
+    },
+    {
+      'name': 'Income',
+      'icon': Icons.account_balance_wallet,
+      'color': Colors.green,
+    },
   ];
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Container(
       padding: EdgeInsets.only(
         top: 24.h,
@@ -51,18 +72,18 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
                 width: 40.w,
                 height: 4.h,
                 decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.3),
+                  color: Colors.grey.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(2.r),
                 ),
               ),
             ),
             SizedBox(height: 24.h),
-            
+
             // Toggle Expense / Income
             Container(
               height: 50.h,
               decoration: BoxDecoration(
-                color: theme.colorScheme.onSurface.withOpacity(0.05),
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.circular(25.r),
               ),
               child: Row(
@@ -72,22 +93,32 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
                       onTap: () => setState(() => isExpense = true),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: isExpense ? Colors.redAccent : Colors.transparent,
+                          color: isExpense
+                              ? Colors.redAccent
+                              : Colors.transparent,
                           borderRadius: BorderRadius.circular(25.r),
-                          boxShadow: isExpense ? [
-                            BoxShadow(
-                              color: Colors.redAccent.withOpacity(0.3),
-                              blurRadius: 8,
-                              offset: const Offset(0, 4),
-                            )
-                          ] : null,
+                          boxShadow: isExpense
+                              ? [
+                                  BoxShadow(
+                                    color: Colors.redAccent.withValues(
+                                      alpha: 0.3,
+                                    ),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ]
+                              : null,
                         ),
                         alignment: Alignment.center,
                         child: Text(
                           'Expense',
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w600,
-                            color: isExpense ? Colors.white : theme.colorScheme.onSurface.withOpacity(0.5),
+                            color: isExpense
+                                ? Colors.white
+                                : theme.colorScheme.onSurface.withValues(
+                                    alpha: 0.5,
+                                  ),
                           ),
                         ),
                       ),
@@ -100,20 +131,26 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
                         decoration: BoxDecoration(
                           color: !isExpense ? Colors.green : Colors.transparent,
                           borderRadius: BorderRadius.circular(25.r),
-                          boxShadow: !isExpense ? [
-                            BoxShadow(
-                              color: Colors.green.withOpacity(0.3),
-                              blurRadius: 8,
-                              offset: const Offset(0, 4),
-                            )
-                          ] : null,
+                          boxShadow: !isExpense
+                              ? [
+                                  BoxShadow(
+                                    color: Colors.green.withValues(alpha: 0.3),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ]
+                              : null,
                         ),
                         alignment: Alignment.center,
                         child: Text(
                           'Income',
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w600,
-                            color: !isExpense ? Colors.white : theme.colorScheme.onSurface.withOpacity(0.5),
+                            color: !isExpense
+                                ? Colors.white
+                                : theme.colorScheme.onSurface.withValues(
+                                    alpha: 0.5,
+                                  ),
                           ),
                         ),
                       ),
@@ -122,7 +159,7 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
                 ],
               ),
             ),
-            
+
             SizedBox(height: 32.h),
 
             // Amount Input
@@ -131,13 +168,15 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
                 'How much?',
                 style: GoogleFonts.poppins(
                   fontSize: 16.sp,
-                  color: theme.colorScheme.onSurface.withOpacity(0.5),
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
                 ),
               ),
             ),
             TextField(
               textAlign: TextAlign.center,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
               style: GoogleFonts.poppins(
                 fontSize: 48.sp,
                 fontWeight: FontWeight.bold,
@@ -148,7 +187,7 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
                 hintStyle: GoogleFonts.poppins(
                   fontSize: 48.sp,
                   fontWeight: FontWeight.bold,
-                  color: theme.colorScheme.onSurface.withOpacity(0.2),
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.2),
                 ),
                 border: InputBorder.none,
               ),
@@ -185,7 +224,9 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
                         Container(
                           padding: EdgeInsets.all(16.w),
                           decoration: BoxDecoration(
-                            color: isSelected ? cat['color'] : cat['color'].withOpacity(0.1),
+                            color: isSelected
+                                ? cat['color']
+                                : cat['color'].withOpacity(0.1),
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
@@ -199,8 +240,14 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
                           cat['name'],
                           style: GoogleFonts.poppins(
                             fontSize: 12.sp,
-                            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                            color: isSelected ? theme.colorScheme.primary : theme.colorScheme.onSurface.withOpacity(0.6),
+                            fontWeight: isSelected
+                                ? FontWeight.w600
+                                : FontWeight.w400,
+                            color: isSelected
+                                ? theme.colorScheme.primary
+                                : theme.colorScheme.onSurface.withValues(
+                                    alpha: 0.6,
+                                  ),
                           ),
                         ),
                       ],
@@ -226,7 +273,7 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
                     borderRadius: BorderRadius.circular(16.r),
                   ),
                   elevation: 5,
-                  shadowColor: const Color(0xFF00D09E).withOpacity(0.5),
+                  shadowColor: const Color(0xFF00D09E).withValues(alpha: 0.5),
                 ),
                 child: Text(
                   'Continue',

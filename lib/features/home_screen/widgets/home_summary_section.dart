@@ -93,7 +93,7 @@ class HomeSummarySection extends StatelessWidget {
             height: 32.h,
             width: double.infinity,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
+              color: Colors.white.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(16.r),
             ),
             child: Stack(
@@ -137,7 +137,11 @@ class HomeSummarySection extends StatelessWidget {
           SizedBox(height: 12.h),
           Row(
             children: [
-              const Icon(Icons.check_box_outlined, size: 16, color: Colors.white),
+              const Icon(
+                Icons.check_box_outlined,
+                size: 16,
+                color: Colors.white,
+              ),
               SizedBox(width: 8.w),
               Expanded(
                 child: Text(
@@ -155,5 +159,4 @@ class HomeSummarySection extends StatelessWidget {
       ),
     );
   }
-
 }

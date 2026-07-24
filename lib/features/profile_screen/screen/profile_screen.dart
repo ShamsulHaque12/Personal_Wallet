@@ -125,7 +125,7 @@ class ProfileScreen extends StatelessWidget {
                     trailing: Icon(
                       Icons.arrow_forward_ios,
                       size: 16,
-                      color: theme.colorScheme.onSurface.withOpacity(0.5),
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
                     ),
                     onTap: controller.onEditProfile,
                   ),
@@ -136,7 +136,7 @@ class ProfileScreen extends StatelessWidget {
                     trailing: Icon(
                       Icons.arrow_forward_ios,
                       size: 16,
-                      color: theme.colorScheme.onSurface.withOpacity(0.5),
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
                     ),
                     onTap: controller.onSecurity,
                   ),
@@ -147,7 +147,7 @@ class ProfileScreen extends StatelessWidget {
                     trailing: Icon(
                       Icons.arrow_forward_ios,
                       size: 16,
-                      color: theme.colorScheme.onSurface.withOpacity(0.5),
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
                     ),
                     onTap: controller.onSetting,
                   ),
@@ -158,13 +158,15 @@ class ProfileScreen extends StatelessWidget {
                     trailing: Icon(
                       Icons.arrow_forward_ios,
                       size: 16,
-                      color: theme.colorScheme.onSurface.withOpacity(0.5),
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
                     ),
                     onTap: controller.onHelp,
                   ),
 
                   SizedBox(height: 12.h),
-                  Divider(color: theme.colorScheme.onSurface.withOpacity(0.1)),
+                  Divider(
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.1),
+                  ),
                   SizedBox(height: 12.h),
 
                   _buildMenuItem(
@@ -205,11 +207,11 @@ class ProfileScreen extends StatelessWidget {
             color: theme.colorScheme.surface,
             borderRadius: BorderRadius.circular(15.r),
             border: Border.all(
-              color: theme.colorScheme.onSurface.withOpacity(0.05),
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.05),
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.03),
+                color: Colors.black.withValues(alpha: 0.03),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
