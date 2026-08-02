@@ -44,7 +44,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 2.h),
                         Text(
-                          'Good Morning',
+                          controller.greeting,
                           style: GoogleFonts.poppins(
                             color: theme.colorScheme.onSurface.withValues(
                               alpha: 0.5,
