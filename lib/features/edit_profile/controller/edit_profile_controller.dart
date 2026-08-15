@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,7 +17,7 @@ class EditProfileController extends GetxController {
 
   // Text Controllers
   final usernameController = TextEditingController();
-  final phoneController = TextEditingController(text: 'Update Number');
+  final phoneController = TextEditingController();
   final emailController = TextEditingController();
 
   @override
@@ -45,15 +46,16 @@ class EditProfileController extends GetxController {
           if (data != null) {
             userName.value = data['full_name'] ?? (user.userMetadata?['full_name'] ?? '');
             avatarUrl.value = data['avatar_url'] ?? '';
+            phoneController.text = data['phone'] ?? '';
           } else {
             userName.value = user.userMetadata?['full_name'] ?? '';
+            phoneController.text = '';
           }
         } catch (e) {
           userName.value = user.userMetadata?['full_name'] ?? '';
         }
 
         usernameController.text = userName.value;
-        phoneController.text = 'Update Number';
       } else {
         // Fallback to SharedPreferences if currentUser session is pending
         final savedUserId = await SharedPreferenceService.getUserId();
@@ -69,10 +71,10 @@ class EditProfileController extends GetxController {
               userName.value = data['full_name'] ?? '';
               userEmail.value = data['email'] ?? '';
               avatarUrl.value = data['avatar_url'] ?? '';
+              phoneController.text = data['phone'] ?? '';
 
               usernameController.text = userName.value;
               emailController.text = userEmail.value;
-              phoneController.text = 'Update Number';
             }
           } catch (e) {
             debugPrint('Error fetching profile from DB: $e');
@@ -97,14 +99,68 @@ class EditProfileController extends GetxController {
     try {
       isLoading.value = true;
       final user = Supabase.instance.client.auth.currentUser;
+      // ignore: avoid_print
+      print("USER ID: ${user?.id}");
 
       if (user != null) {
-        await Supabase.instance.client.from('profiles').upsert({
-          'id': user.id,
-          'full_name': usernameController.text.trim(),
-          'updated_at': DateTime.now().toIso8601String(),
-        });
+        // 1. Upload avatar image if a new image was picked
+        if (pickedImage.value != null) {
+          final imageFile = File(pickedImage.value!.path);
+          final filePath = '${user.id}/avatar.jpg';
+          // ignore: avoid_print
+          print("FILE PATH: $filePath");
+
+          try {
+            await Supabase.instance.client.storage.createBucket(
+              'avatars',
+              const BucketOptions(public: true),
+            );
+          } catch (e) {
+            // Bucket may already exist or client key doesn't have create bucket permissions
+          }
+
+          await Supabase.instance.client.storage
+              .from('avatars')
+              .upload(
+                filePath,
+                imageFile,
+                fileOptions: const FileOptions(
+                  upsert: true,
+                ),
+              );
+
+          final rawImageUrl = Supabase.instance.client.storage
+              .from('avatars')
+              .getPublicUrl(filePath);
+
+          // Append timestamp to bust network/Flutter image cache
+          final imageUrl = '$rawImageUrl?t=${DateTime.now().millisecondsSinceEpoch}';
+
+          await Supabase.instance.client
+              .from('profiles')
+              .update({
+                'avatar_url': imageUrl,
+              })
+              .eq('id', user.id);
+
+          avatarUrl.value = imageUrl;
+          debugPrint('SUCCESS: Avatar image uploaded successfully. Image URL: $imageUrl');
+        }
+
+        // 2. Update profile fields
+        await Supabase.instance.client
+            .from('profiles')
+            .update({
+              'full_name': usernameController.text.trim(),
+              'phone': phoneController.text.trim(),
+              'updated_at': DateTime.now().toIso8601String(),
+            })
+            .eq('id', user.id);
+
         userName.value = usernameController.text.trim();
+        debugPrint('SUCCESS: Profile details updated successfully for user ID: ${user.id}');
+      } else {
+        debugPrint('WARNING: Cannot update profile. No authenticated user found.');
       }
 
       Get.back();
@@ -116,6 +172,7 @@ class EditProfileController extends GetxController {
         colorText: Colors.white,
       );
     } catch (e) {
+      debugPrint('ERROR: Exception occurred while updating profile: $e');
       Get.snackbar(
         'Error',
         'Failed to update profile: $e',
