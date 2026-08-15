@@ -83,10 +83,29 @@ class EditProfileScreen extends StatelessWidget {
                                       File(controller.pickedImage.value!.path),
                                       fit: BoxFit.cover,
                                     )
-                                  : Image.asset(
-                                      controller.profileImage,
-                                      fit: BoxFit.cover,
-                                    ),
+                                  : controller.avatarUrl.value.isNotEmpty
+                                      ? Image.network(
+                                          controller.avatarUrl.value,
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (context, error, stackTrace) => Container(
+                                            color: theme.colorScheme.surface,
+                                            child: Icon(
+                                              Icons.broken_image_rounded,
+                                              size: 44.sp,
+                                              color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
+                                            ),
+                                          ),
+                                        )
+                                      : Container(
+                                          color: theme.colorScheme.surface,
+                                          child: Center(
+                                            child: Icon(
+                                              Icons.broken_image_rounded,
+                                              size: 44.sp,
+                                              color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
+                                            ),
+                                          ),
+                                        ),
                             ),
                           ),
                         ),
@@ -125,21 +144,29 @@ class EditProfileScreen extends StatelessWidget {
                     SizedBox(height: 16.h),
 
                     // Quick Info Display
-                    Text(
-                      controller.userName,
-                      style: GoogleFonts.poppins(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.onSurface,
+                    Obx(
+                      () => Text(
+                        controller.userName.value.isEmpty
+                            ? 'User Name'
+                            : controller.userName.value,
+                        style: GoogleFonts.poppins(
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.bold,
+                          color: theme.colorScheme.onSurface,
+                        ),
                       ),
                     ),
                     SizedBox(height: 2.h),
-                    Text(
-                      controller.userGmail,
-                      style: GoogleFonts.poppins(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w400,
-                        color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                    Obx(
+                      () => Text(
+                        controller.userEmail.value.isEmpty
+                            ? 'user@example.com'
+                            : controller.userEmail.value,
+                        style: GoogleFonts.poppins(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w400,
+                          color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                        ),
                       ),
                     ),
                   ],
@@ -206,11 +233,12 @@ class EditProfileScreen extends StatelessWidget {
 
                         _buildInputField(
                           context: context,
-                          label: 'Email Address',
+                          label: 'Email Address (Fixed)',
                           prefixIcon: Icons.mail_outline_rounded,
                           fieldController: controller.emailController,
                           hintText: 'Enter email address',
                           keyboardType: TextInputType.emailAddress,
+                          enabled: false,
                         ),
                       ],
                     ),
@@ -276,6 +304,7 @@ class EditProfileScreen extends StatelessWidget {
     required TextEditingController fieldController,
     String? hintText,
     TextInputType? keyboardType,
+    bool enabled = true,
   }) {
     final theme = Theme.of(context);
     return Column(
@@ -286,32 +315,44 @@ class EditProfileScreen extends StatelessWidget {
           style: GoogleFonts.poppins(
             fontSize: 13.sp,
             fontWeight: FontWeight.w600,
-            color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+            color: theme.colorScheme.onSurface.withValues(alpha: enabled ? 0.6 : 0.35),
           ),
         ),
         SizedBox(height: 8.h),
         Container(
           decoration: BoxDecoration(
-            color: theme.scaffoldBackgroundColor,
+            color: enabled
+                ? theme.scaffoldBackgroundColor
+                : theme.scaffoldBackgroundColor.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(16.r),
             border: Border.all(
-              color: theme.colorScheme.onSurface.withValues(alpha: 0.05),
+              color: theme.colorScheme.onSurface.withValues(alpha: enabled ? 0.05 : 0.02),
               width: 1.5,
             ),
           ),
           child: TextField(
             controller: fieldController,
+            enabled: enabled,
             keyboardType: keyboardType,
             style: GoogleFonts.poppins(
               fontSize: 14.sp,
-              color: theme.colorScheme.onSurface,
+              color: enabled
+                  ? theme.colorScheme.onSurface
+                  : theme.colorScheme.onSurface.withValues(alpha: 0.4),
             ),
             decoration: InputDecoration(
               prefixIcon: Icon(
                 prefixIcon,
-                color: theme.colorScheme.primary.withValues(alpha: 0.7),
+                color: theme.colorScheme.primary.withValues(alpha: enabled ? 0.7 : 0.35),
                 size: 20.sp,
               ),
+              suffixIcon: enabled
+                  ? null
+                  : Icon(
+                      Icons.lock_outline_rounded,
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
+                      size: 18.sp,
+                    ),
               hintText: hintText,
               hintStyle: GoogleFonts.poppins(
                 fontSize: 14.sp,

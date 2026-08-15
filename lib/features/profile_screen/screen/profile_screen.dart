@@ -84,10 +84,34 @@ class ProfileScreen extends StatelessWidget {
                             width: 1.5,
                           ),
                         ),
-                        child: CircleAvatar(
-                          radius: 36.r,
-                          backgroundColor: theme.colorScheme.surface,
-                          backgroundImage: AssetImage(controller.profileImage),
+                        child: Obx(
+                          () => CircleAvatar(
+                            radius: 36.r,
+                            backgroundColor: theme.colorScheme.surface,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(36.r),
+                              child: controller.avatarUrl.value.isNotEmpty
+                                  ? Image.network(
+                                      controller.avatarUrl.value,
+                                      fit: BoxFit.cover,
+                                      width: 72.r,
+                                      height: 72.r,
+                                      errorBuilder:
+                                          (context, error, stackTrace) => Icon(
+                                            Icons.broken_image_rounded,
+                                            size: 28.sp,
+                                            color: theme.colorScheme.onSurface
+                                                .withValues(alpha: 0.4),
+                                          ),
+                                    )
+                                  : Icon(
+                                      Icons.broken_image_rounded,
+                                      size: 28.sp,
+                                      color: theme.colorScheme.onSurface
+                                          .withValues(alpha: 0.4),
+                                    ),
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -97,27 +121,35 @@ class ProfileScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Text(
-                              controller.userName,
-                              style: GoogleFonts.poppins(
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
-                                color: theme.colorScheme.onSurface,
-                              ),
+                        Obx(
+                          () => Text(
+                            controller.userName.value.isEmpty
+                                ? 'User Name'
+                                : controller.userName.value,
+                            style: GoogleFonts.poppins(
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.bold,
+                              color: theme.colorScheme.onSurface,
                             ),
-                          ],
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                         SizedBox(height: 2.h),
-                        Text(
-                          controller.userGmail,
-                          style: GoogleFonts.poppins(
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w400,
-                            color: theme.colorScheme.onSurface.withValues(
-                              alpha: 0.5,
+                        Obx(
+                          () => Text(
+                            controller.userGmail.value.isEmpty
+                                ? 'user@example.com'
+                                : controller.userGmail.value,
+                            style: GoogleFonts.poppins(
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w400,
+                              color: theme.colorScheme.onSurface.withValues(
+                                alpha: 0.5,
+                              ),
                             ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],

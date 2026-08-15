@@ -216,23 +216,36 @@ class LogInScreen extends StatelessWidget {
             // Sign In Button
             Flipping3DListItem(
               index: 1,
-              child: GestureDetector(
-                onTap: controller.login,
-                child: Container(
-                  width: double.infinity,
-                  height: 52.h,
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primary,
-                    borderRadius: BorderRadius.circular(16.r),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Sign In',
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.bold,
+              child: Obx(
+                () => GestureDetector(
+                  onTap: controller.isLoading.value ? null : controller.login,
+                  child: Container(
+                    width: double.infinity,
+                    height: 52.h,
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.primary.withValues(
+                        alpha: controller.isLoading.value ? 0.7 : 1.0,
                       ),
+                      borderRadius: BorderRadius.circular(16.r),
+                    ),
+                    child: Center(
+                      child: controller.isLoading.value
+                          ? SizedBox(
+                              height: 22.r,
+                              width: 22.r,
+                              child: const CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2.5,
+                              ),
+                            )
+                          : Text(
+                              'Sign In',
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                     ),
                   ),
                 ),
