@@ -407,37 +407,56 @@ class TransactionCategoriesScreen extends StatelessWidget {
                   ),
                   SizedBox(width: 8.w),
                   Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        if (amountController.text.isNotEmpty) {
-                          controller.onCategorySelected(category);
-                        } else {
-                          Get.snackbar(
-                            'Error',
-                            'Please enter an amount',
-                            snackPosition: SnackPosition.TOP,
-                            backgroundColor: Colors.redAccent,
-                            colorText: Colors.white,
-                          );
-                        }
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 12.h),
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.primary,
-                          borderRadius: BorderRadius.circular(12.r),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Confirm',
-                            style: GoogleFonts.poppins(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
+                    child: Obx(() {
+                      final isLoading = controller.isLoading.value;
+                      return GestureDetector(
+                        onTap: isLoading
+                            ? null
+                            : () {
+                                final text = amountController.text.trim();
+                                final amount = double.tryParse(text);
+                                if (amount != null && amount > 0) {
+                                  controller.addTransaction(
+                                    category: category,
+                                    amount: amount,
+                                  );
+                                } else {
+                                  Get.snackbar(
+                                    'Error',
+                                    'Please enter a valid amount greater than 0',
+                                    snackPosition: SnackPosition.TOP,
+                                    backgroundColor: Colors.redAccent,
+                                    colorText: Colors.white,
+                                  );
+                                }
+                              },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 12.h),
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.primary,
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                          child: Center(
+                            child: isLoading
+                                ? SizedBox(
+                                    height: 20.h,
+                                    width: 20.h,
+                                    child: const CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : Text(
+                                    'Confirm',
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                           ),
                         ),
-                      ),
-                    ),
+                      );
+                    }),
                   ),
                 ],
               ),

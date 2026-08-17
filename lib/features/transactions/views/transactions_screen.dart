@@ -190,27 +190,49 @@ class TransactionsScreen extends StatelessWidget {
 
           Expanded(
             child: Obx(
-              () => ListView.separated(
-                physics: const BouncingScrollPhysics(),
-                padding: EdgeInsets.only(
-                  left: 20.w,
-                  right: 20.w,
-                  bottom: 120.h,
-                ),
-                itemCount: controller.transactionsList.length,
-                separatorBuilder: (context, index) => Divider(
-                  height: 16.h,
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.05),
-                ),
-                itemBuilder: (context, index) {
-                  final tx = controller.transactionsList[index];
-                  return Flipping3DListItem(
-                    key: ValueKey('${controller.selectedFilter.value}_$index'),
-                    index: index,
-                    child: TransactionTile(tx: tx),
+              () {
+                if (controller.isLoading.value) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
-                },
-              ),
+                }
+
+                final list = controller.filteredTransactions;
+                if (list.isEmpty) {
+                  return Center(
+                    child: Text(
+                      'No transactions for ${controller.selectedFilter.value}',
+                      style: GoogleFonts.poppins(
+                        fontSize: 14.sp,
+                        color: theme.colorScheme.onSurface
+                            .withValues(alpha: 0.5),
+                      ),
+                    ),
+                  );
+                }
+
+                return ListView.separated(
+                  physics: const BouncingScrollPhysics(),
+                  padding: EdgeInsets.only(
+                    left: 20.w,
+                    right: 20.w,
+                    bottom: 120.h,
+                  ),
+                  itemCount: list.length,
+                  separatorBuilder: (context, index) => Divider(
+                    height: 16.h,
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.05),
+                  ),
+                  itemBuilder: (context, index) {
+                    final tx = list[index];
+                    return Flipping3DListItem(
+                      key: ValueKey('${controller.selectedFilter.value}_$index'),
+                      index: index,
+                      child: TransactionTile(tx: tx),
+                    );
+                  },
+                );
+              },
             ),
           ),
         ],

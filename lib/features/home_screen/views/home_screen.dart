@@ -134,22 +134,50 @@ class HomeScreen extends StatelessWidget {
 
                     // Transaction List
                     Obx(
-                      () => ListView.separated(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.zero,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: controller.transactions.length,
-                        separatorBuilder: (_, _) => Divider(
-                          height: 16.h,
-                          color: theme.colorScheme.onSurface.withValues(
-                            alpha: 0.05,
+                      () {
+                        if (controller.isLoading.value) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(vertical: 24.h),
+                            child: const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        }
+
+                        final list = controller.filteredTransactions;
+                        if (list.isEmpty) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(vertical: 24.h),
+                            child: Center(
+                              child: Text(
+                                'No transactions found for ${controller.selectedTab.value}',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 13.sp,
+                                  color: theme.colorScheme.onSurface
+                                      .withValues(alpha: 0.5),
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+
+                        return ListView.separated(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.zero,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: list.length,
+                          separatorBuilder: (_, _) => Divider(
+                            height: 16.h,
+                            color: theme.colorScheme.onSurface.withValues(
+                              alpha: 0.05,
+                            ),
                           ),
-                        ),
-                        itemBuilder: (context, index) {
-                          final tx = controller.transactions[index];
-                          return TransactionTile(tx: tx);
-                        },
-                      ),
+                          itemBuilder: (context, index) {
+                            final tx = list[index];
+                            return TransactionTile(tx: tx);
+                          },
+                        );
+                      },
                     ),
                     SizedBox(
                       height: 20.h,

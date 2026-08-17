@@ -11,8 +11,8 @@ class ProfileController extends GetxController {
   final isLoading = false.obs;
 
   // Reactive Stats for a professional feel
-  final totalBalance = '\$12,480.00'.obs;
-  final monthlySavings = '\$1,250.00'.obs;
+  final totalBalance = '\$0.00'.obs;
+  final monthlySavings = '\$0.00'.obs;
   final accountStatus = 'Pro Member'.obs;
 
   @override
@@ -25,6 +25,7 @@ class ProfileController extends GetxController {
     try {
       isLoading.value = true;
       final user = Supabase.instance.client.auth.currentUser;
+      String? currentUserId = user?.id;
 
       if (user != null) {
         userGmail.value = user.email ?? '';
@@ -45,13 +46,13 @@ class ProfileController extends GetxController {
           userName.value = user.userMetadata?['full_name'] ?? '';
         }
       } else {
-        final savedUserId = await SharedPreferenceService.getUserId();
-        if (savedUserId != null) {
+        currentUserId = await SharedPreferenceService.getUserId();
+        if (currentUserId != null) {
           try {
             final data = await Supabase.instance.client
                 .from('profiles')
                 .select()
-                .eq('id', savedUserId)
+                .eq('id', currentUserId)
                 .maybeSingle();
 
             if (data != null) {
@@ -64,10 +65,63 @@ class ProfileController extends GetxController {
           }
         }
       }
+
+      if (currentUserId != null && currentUserId.isNotEmpty) {
+        await fetchUserStats(currentUserId);
+      }
     } catch (e) {
       debugPrint('Error fetching user profile in ProfileController: $e');
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  Future<void> fetchUserStats(String userId) async {
+    try {
+      final response = await Supabase.instance.client
+          .from('transactions')
+          .select()
+          .eq('user_id', userId);
+
+      final now = DateTime.now();
+      double incomeSum = 0.0;
+      double expenseSum = 0.0;
+      double monthlyIncomeSum = 0.0;
+      double monthlyExpenseSum = 0.0;
+
+      for (var item in (response as List)) {
+        final typeStr = (item['type'] ?? '').toString().toLowerCase();
+        final amountNum = double.tryParse(item['amount'].toString()) ?? 0.0;
+        final dateStr = (item['transaction_date'] ?? '').toString();
+        final txDate = DateTime.tryParse(dateStr) ?? now;
+
+        final isCurrentMonth = txDate.year == now.year && txDate.month == now.month;
+
+        if (typeStr == 'expense') {
+          expenseSum += amountNum;
+          if (isCurrentMonth) {
+            monthlyExpenseSum += amountNum;
+          }
+        } else {
+          incomeSum += amountNum;
+          if (isCurrentMonth) {
+            monthlyIncomeSum += amountNum;
+          }
+        }
+      }
+
+      final balance = incomeSum - expenseSum;
+      final mSavings = monthlyIncomeSum - monthlyExpenseSum;
+
+      totalBalance.value = balance >= 0
+          ? '\$${balance.toStringAsFixed(2)}'
+          : '-\$${balance.abs().toStringAsFixed(2)}';
+
+      monthlySavings.value = mSavings >= 0
+          ? '\$${mSavings.toStringAsFixed(2)}'
+          : '-\$${mSavings.abs().toStringAsFixed(2)}';
+    } catch (e) {
+      debugPrint('Error fetching user stats in ProfileController: $e');
     }
   }
 
@@ -107,5 +161,3 @@ class ProfileController extends GetxController {
     );
   }
 }
-
-

@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:personal_wallet/services/shared_preference_service.dart';
 import 'package:personal_wallet/features/navigation_bar/controller/navigation_bar_controller.dart';
+import 'package:personal_wallet/features/transactions/controller/transactions_controller.dart';
+import 'package:personal_wallet/features/home_screen/controller/home_screen_controller.dart';
+import 'package:personal_wallet/features/profile_screen/controller/profile_controller.dart';
+import 'package:personal_wallet/features/analytics/controller/analytics_controller.dart';
 
 class TransactionCategory {
   final String name;
@@ -21,6 +27,7 @@ class TransactionCategory {
 class TransactionCategoriesController extends GetxController {
   final searchQuery = ''.obs;
   final selectedType = 'All'.obs;
+  final isLoading = false.obs;
 
   final List<TransactionCategory> categories = [
     TransactionCategory(
@@ -141,18 +148,91 @@ class TransactionCategoriesController extends GetxController {
     selectedType.value = type;
   }
 
-  void onCategorySelected(TransactionCategory category) {
-    // This will show a success message mock transaction add
-    Get.back();
-    if (Get.isRegistered<NavigationBarController>()) {
-      Get.find<NavigationBarController>().changeIndex(0);
+  Future<void> addTransaction({
+    required TransactionCategory category,
+    required double amount,
+  }) async {
+    try {
+      isLoading.value = true;
+
+      // 1. Retrieve current authenticated user ID
+      String? userId = Supabase.instance.client.auth.currentUser?.id;
+      if (userId == null || userId.isEmpty) {
+        userId = await SharedPreferenceService.getUserId();
+      }
+
+      if (userId == null || userId.isEmpty) {
+        debugPrint('ERROR: Cannot add transaction. No authenticated user found.');
+        Get.snackbar(
+          'Error',
+          'User is not authenticated. Please log in to add transactions.',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.redAccent,
+          colorText: Colors.white,
+        );
+        return;
+      }
+
+      final String type = category.type.toLowerCase(); // 'income' or 'expense'
+      final String transactionDate = DateTime.now().toIso8601String().split('T')[0];
+
+      final Map<String, dynamic> transactionData = {
+        'user_id': userId,
+        'category': category.name,
+        'type': type,
+        'amount': amount,
+        'transaction_date': transactionDate,
+      };
+
+      debugPrint('LOG: Submitting transaction to Supabase... Payload: $transactionData');
+
+      final response = await Supabase.instance.client
+          .from('transactions')
+          .insert(transactionData)
+          .select();
+
+      debugPrint('SUCCESS: Transaction logged successfully to Supabase! Data: $response');
+
+      Get.back(); // Close dialog
+
+      if (Get.isRegistered<NavigationBarController>()) {
+        Get.find<NavigationBarController>().changeIndex(0);
+      }
+
+      if (Get.isRegistered<HomeScreenController>()) {
+        Get.find<HomeScreenController>().fetchTransactions();
+      }
+
+      if (Get.isRegistered<TransactionsController>()) {
+        Get.find<TransactionsController>().fetchTransactions();
+      }
+
+      if (Get.isRegistered<ProfileController>()) {
+        Get.find<ProfileController>().fetchUserProfile();
+      }
+
+      if (Get.isRegistered<AnalyticsController>()) {
+        Get.find<AnalyticsController>().fetchAnalytics();
+      }
+
+      Get.snackbar(
+        'Transaction Added',
+        'Successfully logged ${category.type.toLowerCase()} of \$${amount.toStringAsFixed(2)} for ${category.name}',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+    } catch (e) {
+      debugPrint('ERROR: Exception occurred while logging transaction to Supabase: $e');
+      Get.snackbar(
+        'Error',
+        'Failed to log transaction: $e',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+      );
+    } finally {
+      isLoading.value = false;
     }
-    Get.snackbar(
-      'Transaction Added',
-      'Successfully logged transaction for ${category.name}',
-      snackPosition: SnackPosition.TOP,
-      backgroundColor: Colors.green,
-      colorText: Colors.white,
-    );
   }
 }
