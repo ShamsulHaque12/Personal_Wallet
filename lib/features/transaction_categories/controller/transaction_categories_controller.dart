@@ -217,7 +217,7 @@ class TransactionCategoriesController extends GetxController {
 
       Get.snackbar(
         'Transaction Added',
-        'Successfully logged ${category.type.toLowerCase()} of \$${amount.toStringAsFixed(2)} for ${category.name}',
+        'Successfully logged ${category.type.toLowerCase()} of BDT ${amount.toStringAsFixed(2)} for ${category.name}',
         snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.green,
         colorText: Colors.white,

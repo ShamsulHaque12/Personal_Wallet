@@ -183,7 +183,7 @@ class _AddTransactionBottomSheetState extends State<AddTransactionBottomSheet> {
                 color: theme.colorScheme.onSurface,
               ),
               decoration: InputDecoration(
-                hintText: '\$0.00',
+                hintText: 'BDT 0.00',
                 hintStyle: GoogleFonts.poppins(
                   fontSize: 48.sp,
                   fontWeight: FontWeight.bold,

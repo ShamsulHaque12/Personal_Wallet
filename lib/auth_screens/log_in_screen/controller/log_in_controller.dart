@@ -46,10 +46,8 @@ class LogInController extends GetxController {
     try {
       isLoading.value = true;
 
-      final AuthResponse response = await Supabase.instance.client.auth.signInWithPassword(
-        email: email,
-        password: password,
-      );
+      final AuthResponse response = await Supabase.instance.client.auth
+          .signInWithPassword(email: email, password: password);
 
       final User? user = response.user;
 
@@ -106,4 +104,3 @@ class LogInController extends GetxController {
     super.onClose();
   }
 }
-

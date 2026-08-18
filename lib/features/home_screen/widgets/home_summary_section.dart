@@ -45,8 +45,8 @@ class HomeSummarySection extends StatelessWidget {
                     Obx(() {
                       final balance = controller.totalBalance;
                       final balanceStr = balance >= 0
-                          ? '\$${balance.toStringAsFixed(2)}'
-                          : '-\$${balance.abs().toStringAsFixed(2)}';
+                          ? 'BDT ${balance.toStringAsFixed(2)}'
+                          : '-BDT ${balance.abs().toStringAsFixed(2)}';
                       return Text(
                         balanceStr,
                         style: GoogleFonts.poppins(
@@ -92,7 +92,7 @@ class HomeSummarySection extends StatelessWidget {
                     Obx(() {
                       final expense = controller.totalExpense;
                       return Text(
-                        '-\$${expense.toStringAsFixed(2)}',
+                        '-BDT ${expense.toStringAsFixed(2)}',
                         style: GoogleFonts.poppins(
                           fontSize: 22.sp,
                           fontWeight: FontWeight.bold,
@@ -164,7 +164,7 @@ class HomeSummarySection extends StatelessWidget {
                         bottom: 0,
                         child: Center(
                           child: Text(
-                            '\$${limit.toStringAsFixed(2)} total',
+                            'BDT ${limit.toStringAsFixed(2)} total',
                             style: GoogleFonts.poppins(
                               fontSize: 11.sp,
                               fontWeight: FontWeight.w500,

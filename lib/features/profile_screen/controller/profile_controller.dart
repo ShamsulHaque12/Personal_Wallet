@@ -11,8 +11,8 @@ class ProfileController extends GetxController {
   final isLoading = false.obs;
 
   // Reactive Stats for a professional feel
-  final totalBalance = '\$0.00'.obs;
-  final monthlySavings = '\$0.00'.obs;
+  final totalBalance = 'BDT 0.00'.obs;
+  final monthlySavings = 'BDT 0.00'.obs;
   final accountStatus = 'Pro Member'.obs;
 
   @override
@@ -114,12 +114,12 @@ class ProfileController extends GetxController {
       final mSavings = monthlyIncomeSum - monthlyExpenseSum;
 
       totalBalance.value = balance >= 0
-          ? '\$${balance.toStringAsFixed(2)}'
-          : '-\$${balance.abs().toStringAsFixed(2)}';
+          ? 'BDT ${balance.toStringAsFixed(2)}'
+          : '-BDT ${balance.abs().toStringAsFixed(2)}';
 
       monthlySavings.value = mSavings >= 0
-          ? '\$${mSavings.toStringAsFixed(2)}'
-          : '-\$${mSavings.abs().toStringAsFixed(2)}';
+          ? 'BDT ${mSavings.toStringAsFixed(2)}'
+          : '-BDT ${mSavings.abs().toStringAsFixed(2)}';
     } catch (e) {
       debugPrint('Error fetching user stats in ProfileController: $e');
     }

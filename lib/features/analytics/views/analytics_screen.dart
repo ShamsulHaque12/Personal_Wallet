@@ -138,7 +138,7 @@ class AnalyticsScreen extends StatelessWidget {
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
-                      '\$${expense.toStringAsFixed(2)} / \$${limit.toStringAsFixed(2)}',
+                      'BDT ${expense.toStringAsFixed(2)} / BDT ${limit.toStringAsFixed(2)}',
                       style: GoogleFonts.poppins(
                         fontSize: 13.sp,
                         fontWeight: FontWeight.bold,
@@ -263,7 +263,7 @@ class AnalyticsScreen extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(bottom: 4.h),
                           child: Text(
-                            '\$${dayExpense.toStringAsFixed(0)}',
+                            'BDT ${dayExpense.toStringAsFixed(0)}',
                             style: GoogleFonts.poppins(
                               fontSize: 9.sp,
                               fontWeight: FontWeight.w600,
@@ -461,8 +461,8 @@ class AnalyticsScreen extends StatelessWidget {
                           SizedBox(width: 8.w),
                           Text(
                             isExpense
-                                ? '-\$${item.amount.toStringAsFixed(2)}'
-                                : '+\$${item.amount.toStringAsFixed(2)}',
+                                ? '-BDT ${item.amount.toStringAsFixed(2)}'
+                                : '+BDT ${item.amount.toStringAsFixed(2)}',
                             style: GoogleFonts.poppins(
                               fontSize: 13.sp,
                               fontWeight: FontWeight.bold,

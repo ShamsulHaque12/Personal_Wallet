@@ -92,7 +92,7 @@ class SavingsCard extends StatelessWidget {
                       title: lastIncome != null
                           ? lastIncome.title
                           : 'Last Income',
-                      amount: lastIncome?.amount ?? '\$0.00',
+                      amount: lastIncome?.amount ?? 'BDT 0.00',
                       isPositive: true,
                     ),
                     Divider(
@@ -111,7 +111,7 @@ class SavingsCard extends StatelessWidget {
                       title: lastExpense != null
                           ? lastExpense.title
                           : 'Last Expense',
-                      amount: lastExpense?.amount ?? '\$0.00',
+                      amount: lastExpense?.amount ?? 'BDT 0.00',
                       isPositive: false,
                     ),
                   ],

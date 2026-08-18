@@ -1,16 +1,26 @@
-import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:get/state_manager.dart';
+import 'package:get/get.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:personal_wallet/route/app_routes.dart';
+import 'package:personal_wallet/services/shared_preference_service.dart';
 
 class SplashController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    navigateToOnboardingScreen();
+    checkAuthAndNavigate();
   }
-  void navigateToOnboardingScreen() {
-    Future.delayed(Duration(seconds: 3), () {
-      Get.offNamed(AppRoutes.onboardingScreen);
-    });
+
+  Future<void> checkAuthAndNavigate() async {
+    await Future.delayed(const Duration(seconds: 3));
+
+    final currentUser = Supabase.instance.client.auth.currentUser;
+    String? userId = currentUser?.id;
+    userId ??= await SharedPreferenceService.getUserId();
+
+    if (currentUser != null || (userId != null && userId.isNotEmpty)) {
+      Get.offAllNamed(AppRoutes.navigationBar);
+    } else {
+      Get.offAllNamed(AppRoutes.onboardingScreen);
+    }
   }
 }

@@ -125,7 +125,7 @@ class TransactionsScreen extends StatelessWidget {
                               ),
                               SizedBox(height: 2.h),
                               Obx(() => Text(
-                                    '\$${controller.totalIncome.toStringAsFixed(2)}',
+                                    'BDT ${controller.totalIncome.toStringAsFixed(2)}',
                                     style: GoogleFonts.poppins(
                                       fontSize: 18.sp,
                                       fontWeight: FontWeight.bold,
@@ -156,7 +156,7 @@ class TransactionsScreen extends StatelessWidget {
                               ),
                               SizedBox(height: 2.h),
                               Obx(() => Text(
-                                    '\$${controller.totalExpense.toStringAsFixed(2)}',
+                                    'BDT ${controller.totalExpense.toStringAsFixed(2)}',
                                     style: GoogleFonts.poppins(
                                       fontSize: 18.sp,
                                       fontWeight: FontWeight.bold,

@@ -73,8 +73,8 @@ class HomeScreenController extends GetxController {
           final isExpense = typeStr == 'expense';
           final amountNum = double.tryParse(item['amount'].toString()) ?? 0.0;
           final amountStr = isExpense
-              ? '-\$${amountNum.toStringAsFixed(2)}'
-              : '+\$${amountNum.toStringAsFixed(2)}';
+              ? '-BDT ${amountNum.toStringAsFixed(2)}'
+              : '+BDT ${amountNum.toStringAsFixed(2)}';
 
           final dateStr = (item['transaction_date'] ?? '').toString();
           final parsedDate = DateTime.tryParse(dateStr) ?? DateTime.now();
